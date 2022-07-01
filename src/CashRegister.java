@@ -2,7 +2,12 @@ import CashItems.*;
 
 public class CashRegister {
     public static void main(String[] args) {
-       ItemCounterContainer icc = new ItemCounterContainer("blah");
+        System.out.println(args[0]);
+
+       ItemCounterContainer icc = new ItemCounterContainer(args[0]);
+        Item [] items = Item.gen_item_list(args[0]);
+
+        System.out.println(items[0].getItemName());
 
         System.out.println(icc.get_type_name(2));
         System.out.println(icc.get_type_amount(2));
