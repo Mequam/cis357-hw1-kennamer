@@ -1,4 +1,4 @@
-1,bottled water,1.50
 2,candy,1.00
-3,chocolate,2.50
 4,gum,1.00
+3,chocolate,2.50
+1,bottled water,1.50
