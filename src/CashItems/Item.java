@@ -39,9 +39,9 @@ public class Item {
     public Item(String csvLine) {
         String [] split_csv = csvLine.split(",");
         load(
-                Integer.parseInt(split_csv[0]),
-                split_csv[1],
-                Double.parseDouble(split_csv[2])
+                Integer.parseInt(split_csv[0].trim()),
+                split_csv[1].trim(),
+                Double.parseDouble(split_csv[2].trim())
         );
     }
 
@@ -84,7 +84,6 @@ public class Item {
         catch ( Exception e) {
             System.out.print(e);
         }
-        System.out.println("returning line count of : " + Integer.toString(lineCount));
         return lineCount;
     }
 
@@ -100,10 +99,9 @@ public class Item {
         * */
         try {
             int lineCount = gen_item_entry_count(f);
-            System.out.println(lineCount);
+
             //initilize the return value array
             Item [] ret_val = new Item[lineCount];
-            System.out.println("return value length: " + Integer.toString(ret_val.length));
             Scanner s = new Scanner(f);
 
             int line = 0;
@@ -111,15 +109,12 @@ public class Item {
                 String data = s.nextLine();
                 //generate a new item from our csv line
                 ret_val[line] = new Item(data);
-                System.out.println(ret_val[line].toString());
                 line ++;
             }
 
             return ret_val;
         }
         catch (Exception e) {
-            System.out.println(e.toString());
-            System.out.println("MISTAKES WERE MADE");
             return new Item[] {};
         }
         /*

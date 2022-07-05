@@ -40,10 +40,15 @@ public class ItemCounterContainer extends Monads.CounterContainer {
         //sort the data array by name
         Arrays.sort(data,(a,b) -> {return ((Item)a.element).getItemName().compareTo(((Item)b.element).getItemName());});
 
-        for (ItemCounter c : (ItemCounter []) data)
-        {
-            System.out.println(((Item)c.element).getItemName());
-        }
+        /*
+
+            for debugging purposes, to see the items loaded, uncomment the following code
+
+            for (ItemCounter c : (ItemCounter []) data)
+            {
+                System.out.println(((Item)c.element).getItemName());
+            }
+       */
     }
 
     /**
