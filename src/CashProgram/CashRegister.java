@@ -193,8 +193,9 @@ public class CashRegister {
             //ensure that we start with no data in the container
             icc.zeroData();
             System.out.print(String.format("\n%-26s","Begin a new sale? (Y/N)"));
-
             String userInput = inScan.nextLine();
+
+            printSeperator();
 
             if (userInput.toUpperCase().equals("Y")) {
                 //demand a valid product code
