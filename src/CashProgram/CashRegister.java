@@ -40,7 +40,16 @@ public class CashRegister {
      * @param s the string to display to the user
      */
     public static void say(String s) {
-        say(s,"%-26s");
+        say(s,"%-26s: ");
+    }
+
+    /**
+     * displays information to the user formatted to indicate an alert
+     *
+     * @param s string to display to the user
+     */
+    public static void alert(String s) {
+        say(s,"     %-21s> ");
     }
 
     /**
@@ -66,7 +75,7 @@ public class CashRegister {
      * @return the string that the user typed
      */
     public static String ask(String question) {
-        return ask(question,"%-26s");
+        return ask(question,"%-26s: ");
     }
 
     /**
@@ -143,9 +152,9 @@ public class CashRegister {
      * @return valid product code, or -1 indicating a terminating response
      */
     public  static int askProductCode(ItemCounterContainer icc) {
-        int id = askInt("Enter Product Code:");
+        int id = askInt("Enter Product Code");
         while (!(icc.contains(id) || id == -1)) {
-            id = askInt("Enter Valid Product Code:");
+            id = askInt("Enter Valid Product Code");
         }
         return id;
     }
@@ -193,15 +202,17 @@ public class CashRegister {
 
                 while (productCode != -1) {
                     //print out to the screen in a nice formated way
-                    say("item name: ","%26s");
+                    alert("item name");
                     say(icc.get_type_name(productCode),"%s\n");
                     int amount = askInt("Enter Quantity: ");
 
                     //actually store the increase in amount
                     icc.get_counter(productCode).count += amount;
 
-                    double itemTotal = icc.get_type_cost(productCode)*amount;
-                    System.out.println(String.format("%26s $%.02f","item total:",itemTotal));
+                    double itemTotal = icc.get_counter(productCode).cost();
+
+                    alert("item total");
+                    System.out.println(String.format("%.2f",itemTotal));
 
 
                     //demand a valid product code
