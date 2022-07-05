@@ -167,10 +167,16 @@ public class CashRegister {
      * @param args comand line arguments inputed to the program
      */
     public static void main(String[] args) {
-        System.out.println(args[0]);
+        //initilize a new ItemCounterContainer that will hold the items the cash register accepts
+        ItemCounterContainer icc;
+        if (args.length > 0) {
+            icc = new ItemCounterContainer(args[0]);
+        }
+        else {
+            icc = new ItemCounterContainer("./items.txt");
+        }
         System.out.println("Welcome to Kennamer cash register system!\n");
 
-        ItemCounterContainer icc = new ItemCounterContainer(args[0]);
         Scanner inScan = new Scanner(System.in);
         boolean run = true;
         double dailyTotal = 0.0;
