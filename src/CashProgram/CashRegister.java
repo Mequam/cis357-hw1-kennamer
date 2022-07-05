@@ -40,7 +40,7 @@ public class CashRegister {
      * @param s the string to display to the user
      */
     public static void say(String s) {
-        say(s,"%-26s");
+        say(s,"%26s");
     }
 
     /**
@@ -66,7 +66,7 @@ public class CashRegister {
      * @return the string that the user typed
      */
     public static String ask(String question) {
-        return ask(question,"%-26s");
+        return ask(question,"%26s");
     }
 
     /**
@@ -86,7 +86,7 @@ public class CashRegister {
                 good_responce = true;
             }
             catch (Exception e) {
-                a = ask(angry_question,"%-26s$ ");
+                a = ask(angry_question,"%26s$ ");
             }
         }
         return ret_val;
@@ -143,9 +143,9 @@ public class CashRegister {
      * @return valid product code, or -1 indicating a terminating response
      */
     public  static int askProductCode(ItemCounterContainer icc) {
-        int id = askInt("Enter Product Code:");
+        int id = askInt("Enter Product Code: ");
         while (!(icc.contains(id) || id == -1)) {
-            id = askInt("Enter Valid Product Code:");
+            id = askInt("Enter Valid Product Code: ");
         }
         return id;
     }
@@ -183,7 +183,7 @@ public class CashRegister {
         while (run) {
             //ensure that we start with no data in the container
             icc.zeroData();
-            System.out.print(String.format("\n%-26s","Begin a new sale? (Y/N)"));
+            System.out.print(String.format("\n%-26s","Begin a new sale? (Y/N) "));
 
             String userInput = inScan.nextLine();
 
@@ -227,7 +227,7 @@ public class CashRegister {
                     total -= payment;
                 }
 
-                System.out.println(String.format("%-26s$ %.2f","Change",Math.abs(total)));
+                System.out.println(String.format("%26s$ %.2f","Change",Math.abs(total)));
 
                 //we also want a new line before each run of the program
                 printSeperator();
