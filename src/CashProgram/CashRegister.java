@@ -202,7 +202,7 @@ public class CashRegister {
                     icc.get_counter(productCode).count += amount;
 
                     double itemTotal = icc.get_type_cost(productCode)*amount;
-                    System.out.println(String.format("%26s $%.02f","item total:",itemTotal));
+                    System.out.println(String.format("%26s $%.02f\n","item total:",itemTotal));
 
 
                     //demand a valid product code
