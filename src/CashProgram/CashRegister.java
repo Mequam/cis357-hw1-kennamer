@@ -1,7 +1,7 @@
 // Homework 1: Sales Register Program
 // Course: CIS357
 // Due date: Tue Jul 5th 11:59pm
-// GitHub: David Kennamer
+// GitHub: https://github.com/Mequam/cis357-hw1-kennamer
 // Instructor: Il-Hyung Cho
 // A simple cash register program made to practice the basics of java
 // to run the program, compile it on the command line, then call it from the command line with
