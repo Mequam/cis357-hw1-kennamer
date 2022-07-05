@@ -70,7 +70,7 @@ public class ItemCounterContainer extends Monads.CounterContainer {
      * @return the subtotal with a 6% tax rate
      */
     public double taxedCost(){
-        return  taxedCost(0.06);
+        return  taxedCost(0.006);
     }
 
     /**
