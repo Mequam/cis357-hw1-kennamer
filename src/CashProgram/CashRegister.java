@@ -194,7 +194,7 @@ public class CashRegister {
 
                 while (productCode != -1) {
                     //print out to the screen in a nice formated way
-                    say("item name: ","%26s");
+                    System.out.print(String.format("%8s %-17s","","item name:"));
                     say(icc.get_type_name(productCode),"%s\n");
                     int amount = askInt("Enter Quantity: ");
 
@@ -202,7 +202,7 @@ public class CashRegister {
                     icc.get_counter(productCode).count += amount;
 
                     double itemTotal = icc.get_type_cost(productCode)*amount;
-                    System.out.println(String.format("%26s $%.02f\n","item total:",itemTotal));
+                    System.out.println(String.format("%7s %-17s $\t%.02f\n","","item total:",itemTotal));
 
 
                     //demand a valid product code
