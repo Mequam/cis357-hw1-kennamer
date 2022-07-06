@@ -31,7 +31,7 @@ public class CashRegister {
      * @param format the formatting used by the say function
      */
     public static void say(String s,String format) {
-            System.out.print(String.format(format,s));
+        System.out.print(String.format(format,s));
     }
 
     /**
