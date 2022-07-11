@@ -10,6 +10,7 @@
 package CashProgram;
 import CashItems.*;
 
+import java.io.File;
 import java.util.Locale;
 import java.util.Scanner;
 
@@ -58,6 +59,38 @@ public class CashRegister {
     }
 
     /**
+     * demands a valid file input from the user
+     *
+     * @param question the question to display to the user
+     * @param angry_question the question to display after a file path which does not exist is passed
+     * @param formatting the formating to use when displaying that question
+     * @return a file object pointing to an existing file and opened
+     * */
+    public  static File askFile(String question, String angry_question, String formatting) {
+        String fpath = ask(question, formatting);
+
+        File f = new File(fpath);
+
+        while (! f.exists()) {
+            f = new File(ask(angry_question,formatting));
+        }
+
+        return f;
+    }
+
+    /**
+     * demands a valid file input from the user, enables optional variables
+     *
+     * @param question the question to display to the user
+     * @param angry_question the question to display after a file path which does not exist is passed
+     * @return a file object pointing to an existing file and opened
+     * */
+    public  static File askFile(String question, String angry_question) {
+        return askFile(question,angry_question,PROGRAM_FORMATING);
+    }
+
+    private static final String  PROGRAM_FORMATING = "%-26s";
+    /**
      * gets a string response from the user
      * the idea here is that we can put our formating in one place
      * and not have to change it everywhere in the program
@@ -66,7 +99,7 @@ public class CashRegister {
      * @return the string that the user typed
      */
     public static String ask(String question) {
-        return ask(question,"%-26s");
+        return ask(question,PROGRAM_FORMATING);
     }
 
     /**
@@ -77,7 +110,7 @@ public class CashRegister {
      * @return a valid double typed by the user
      */
     public  static  double askDouble(String question, String angry_question) {
-        String a = ask(question,"%-26s$ ");
+        String a = ask(question,PROGRAM_FORMATING + "$ ");
         boolean good_responce = false;
         double ret_val = 0;
         while (!good_responce) {
@@ -86,7 +119,7 @@ public class CashRegister {
                 good_responce = true;
             }
             catch (Exception e) {
-                a = ask(angry_question,"%-26s$ ");
+                a = ask(angry_question,PROGRAM_FORMATING + "$ ");
             }
         }
         return ret_val;
@@ -142,10 +175,10 @@ public class CashRegister {
      * @param icc item counter container, used to determine what product codes are valid
      * @return valid product code, or -1 indicating a terminating response
      */
-    public  static int askProductCode(ItemCounterContainer icc) {
-        int id = askInt("Enter Product Code:");
-        while (!(icc.contains(id) || id == -1)) {
-            id = askInt("Enter Valid Product Code:");
+    public  static String askProductCode(ItemCounterContainer icc) {
+        String id = ask("Enter Product Code:");
+        while (!(icc.contains(id) || id.equals("-1"))) {
+            id = ask("Enter Valid Product Code:");
         }
         return id;
     }
@@ -164,16 +197,17 @@ public class CashRegister {
      * computes change and
      * records total sales for the day
      *
-     * @param args comand line arguments inputed to the program
+     * @param args command line arguments inputted to the program
      */
     public static void main(String[] args) {
-        //initilize a new ItemCounterContainer that will hold the items the cash register accepts
+        //initialize a new ItemCounterContainer that will hold the items the cash register accepts
         ItemCounterContainer icc;
         if (args.length > 0) {
             icc = new ItemCounterContainer(args[0]);
         }
         else {
-            icc = new ItemCounterContainer("./items.txt");
+            icc = new ItemCounterContainer(askFile("Item File: ","Item File: "));
+
         }
         System.out.println("Welcome to Kennamer cash register system!\n");
 
@@ -190,9 +224,9 @@ public class CashRegister {
 
             if (userInput.toUpperCase().equals("Y")) {
                 //demand a valid product code
-                int productCode = askProductCode(icc);
+                String productCode = askProductCode(icc);
 
-                while (productCode != -1) {
+                while (!productCode.equals("-1")) {
                     //print out to the screen in a nice formated way
                     System.out.print(String.format("%8s %-17s","","item name:"));
                     say(icc.get_type_name(productCode),"%s\n");

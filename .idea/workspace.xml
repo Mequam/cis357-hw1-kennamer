@@ -6,12 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="33edebda-7d84-4872-9ed3-38ed3600723e" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sample_runs/custom_inputs.docx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/sample_runs/custom_inputs_output.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/sample_runs/demanded_inputs_output.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/sample_runs/forced_input.docx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CashItems/Item.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/CashItems/Item.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/CashItems/ItemCounterContainer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/CashItems/ItemCounterContainer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Monads/CounterContainer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Monads/CounterContainer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CashProgram/CashRegister.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/CashProgram/CashRegister.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/items.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/items.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -84,5 +82,8 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/CashRegister$main.ic" NAME="main Coverage Results" MODIFIED="1657566518287" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
 </project>

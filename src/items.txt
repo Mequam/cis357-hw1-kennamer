@@ -1,4 +1,4 @@
-2,candy,1.00
-4,gum,1.00
-3,chocolate,2.50
-1,bottled water,1.50
+A003,candy,1.00
+A002,gum,1.00
+B001,chocolate,2.50
+A001,bottled water,1.50

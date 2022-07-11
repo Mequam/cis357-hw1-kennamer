@@ -2,8 +2,8 @@ package CashItems;
 
 import Monads.Counter;
 
+import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 
 /**
@@ -33,7 +33,11 @@ public class ItemCounterContainer extends Monads.CounterContainer {
      * @param file file path to a csv file containing item types
      */
     public ItemCounterContainer(String file) {
-        Item [] item_list = Item.gen_item_list(file);
+        this(new File(file));
+    }
+
+    public ItemCounterContainer(java.io.File f) {
+        Item [] item_list = Item.gen_item_list(f);
 
         data = new ArrayList<Counter>();
 
@@ -54,6 +58,8 @@ public class ItemCounterContainer extends Monads.CounterContainer {
                 System.out.println(((Item)c.element).getItemName());
             }
        */
+
+
     }
 
     /**
@@ -114,10 +120,10 @@ public class ItemCounterContainer extends Monads.CounterContainer {
      * @param id the type id to test for
      * @return returns true if the container has a type of id inside it
      */
-    public boolean contains(int id) {
+    public boolean contains(String id) {
         return  !java.util.Objects.isNull(
                     testMap(
-                        (i) -> {return ((Item)((ItemCounter)(i)).element).getItemCode() == id;},
+                        (i) -> {return ((Item)((ItemCounter)(i)).element).getItemCodeString().equals(id);},
                         (j)->{ return true;} )
             );//if we return anything from our generic array search, then we are not null and we need to be true
     }
@@ -128,10 +134,8 @@ public class ItemCounterContainer extends Monads.CounterContainer {
      * @param id id of the type to count
      * @return the count of the given type stored inside of the container
      */
-    public  int get_type_amount(int id) {
-        return (int)testMap(
-                (i) -> {return ((Item)((ItemCounter)(i)).element).getItemCode() == id;},
-                (j)->{ return (((ItemCounter)j).count);} );
+    public  int get_type_amount(String id) {
+        return get_counter(id).count;
     }
 
     /**
@@ -140,11 +144,8 @@ public class ItemCounterContainer extends Monads.CounterContainer {
      * @param id the id of a type stored inside of the container
      * @return the type name, null if no type matching id exists
      */
-    public String get_type_name(int id) {
-        return (String) testMap(
-                (i) -> {return ((Item)((ItemCounter)(i)).element).getItemCode() == id;},
-                (j)->{ return ((Item)((ItemCounter)(j)).element).getItemName();}
-        );
+    public String get_type_name(String id) {
+        return get_item(id).getItemName();
     }
 
     /**
@@ -153,15 +154,8 @@ public class ItemCounterContainer extends Monads.CounterContainer {
      * @param id the type id to find inside of the container
      * @return the type cost, null if no type matching id exists
      */
-    public  double get_type_cost(int id) {
-        return (double)testMap(
-                (i) -> {
-                    return ((Item) ((ItemCounter) (i)).element).getItemCode() == id;
-                },
-                (k) -> {
-                    return ((Item) ((ItemCounter) (k)).element).getUnitPrice();
-                }
-        );
+    public  double get_type_cost(String id) {
+        return get_item(id).getUnitPrice();
     }
 
     /**
@@ -170,10 +164,10 @@ public class ItemCounterContainer extends Monads.CounterContainer {
      * @param id the type id we are searching for
      * @return the item counter matching id, null otherwise
      */
-    public  ItemCounter get_counter(int id){
+    public  ItemCounter get_counter(String id){
         return (ItemCounter) testMap(
                 (i) -> {
-                    return ((Item) ((ItemCounter) (i)).element).getItemCode() == id;
+                    return ((Item) ((ItemCounter) (i)).element).getItemCodeString().equals(id);
                 },
                 (k) -> {
                     return k;
@@ -188,10 +182,10 @@ public class ItemCounterContainer extends Monads.CounterContainer {
      * @param id the tyype id we are searching for
      * @return the item matching id, null otherwise
      */
-    public Item get_item(int id) {
+    public Item get_item(String id) {
         return (Item) testMap(
                 (i) -> {
-                    return ((Item) ((ItemCounter) (i)).element).getItemCode() == id;
+                    return ((Item) ((ItemCounter) (i)).element).getItemCodeString().equals(id);
                 },
                 (k) -> {
                     return ((ItemCounter)k).element;

@@ -1,21 +1,75 @@
 package CashItems;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.Scanner;
 
-import Monads.*;
-
-import java.lang.reflect.Array;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * This class represents a TYPE of item, it is intended to be used as a programmatic type, much
  * like pythonic tuples. As such it is an IMMUTABLE type, and cannot be changed after creation
  */
 public class Item {
+    /**
+     * represents an item code used to uniquely identify each item
+     *
+     * contains several convenience functions for working with strings in the desired format
+     * */
+    static public class ItemCode {
+        /**Custom exception that is called if a malformed item code string is given as an item code*/
+        static public class MalformedItemCodeException extends IllegalArgumentException {
+
+        }
+
+        /**
+         * The string that actually represents our item code
+         * */
+        private String value = null;
+
+        /**
+         * getter for our value
+         *
+         * @return the string value of this item code potentially null if it is not set
+         * */
+        public String getValue() {
+            return value;
+        }
+
+
+        /**
+         * determines if the given string is a valid item code
+         * @param s string to test
+         * @return true if the given s is a valid item code
+         * */
+        public boolean validItemCode(String s) {
+            Pattern p = Pattern.compile("[A-Za-z][A-Za-z\\d]\\d\\d",Pattern.DOTALL);
+            Matcher m = p.matcher(s);
+
+            return  m.matches();
+        }
+       /**
+        * throws a new MalformedItemExpression if the string s is not valid
+        *
+        * @param s the string to validate
+        * */
+        public void malformedItemExceptionCheck(String s)
+                throws MalformedItemCodeException {
+            if (!validItemCode(s)) {
+                throw new MalformedItemCodeException();
+            }
+        }
+        ItemCode(String s) {
+            //throw an exception if the given string is not valid
+            malformedItemExceptionCheck(s);
+
+            //otherwise set value equal to s
+            value = s;
+        }
+    }
     /** this function initializes an item, we use it apposed to the constructor so we can call it on lines OTHER than the first one*/
-    private  void load(int code, String name, double unitPrice) {
-        this.itemCode = code;
+    private  void load(String code, String name, double unitPrice) {
+        this.itemCode = new ItemCode(code);
         this.itemName = name;
         this.unitPrice = unitPrice;
     }
@@ -27,7 +81,7 @@ public class Item {
      * @param name      the name of the given item
      * @param unitPrice how much a single item costs
      */
-    public Item(int code,String name,double unitPrice) {
+    public Item(String code,String name,double unitPrice) {
         load(code,name,unitPrice);
     }
 
@@ -39,7 +93,7 @@ public class Item {
     public Item(String csvLine) {
         String [] split_csv = csvLine.split(",");
         load(
-                Integer.parseInt(split_csv[0].trim()),
+                split_csv[0].trim(),
                 split_csv[1].trim(),
                 Double.parseDouble(split_csv[2].trim())
         );
@@ -145,16 +199,25 @@ public class Item {
     }
 
     /** The integer code for a given item */
-    private int itemCode = 0;
+    private ItemCode itemCode = new ItemCode("A001");
 
     /**
-     * getter for item code
+     * getter for item code string
      *
-     * @return the item code
+     * @return the item code as a string
      */
-    public int getItemCode() {
+    public String getItemCodeString() {
+        return itemCode.value;
+    }
+    /**
+     * getter for the item code object
+     *
+     * @return the item code object representing our code
+     * */
+    public ItemCode getItemCode() {
         return itemCode;
     }
+
     /** the name of this item */
     private String itemName;
 
