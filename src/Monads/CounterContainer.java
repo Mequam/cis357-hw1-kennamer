@@ -4,6 +4,7 @@ package Monads;
 import CashItems.Item;
 import CashItems.ItemCounter;
 
+import java.util.ArrayList;
 import java.util.function.Predicate;
 
 /**
@@ -13,7 +14,7 @@ public class CounterContainer {
     /**
      * array of counters that contain generic objects
      */
-    public  Counter[] data;
+    public ArrayList<Counter> data;
 
     /**
      * empty initializer that performs no operations
@@ -28,7 +29,7 @@ public class CounterContainer {
      * @param length the number of memory slots initialized in the container
      */
     public  CounterContainer(int length) {
-        data = new Counter[length];
+        data = new ArrayList<Counter>(length);
     }
 
     /*

@@ -1,6 +1,10 @@
 package CashItems;
 
+import Monads.Counter;
+
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 
 /**
  * an array of ItemCounters
@@ -30,15 +34,16 @@ public class ItemCounterContainer extends Monads.CounterContainer {
      */
     public ItemCounterContainer(String file) {
         Item [] item_list = Item.gen_item_list(file);
-        data = new ItemCounter[item_list.length];
+
+        data = new ArrayList<Counter>();
 
         //encapsulate each of the items that we returned in a counter container
-        for (int i = 0 ; i < item_list.length; i++) {
-            data[i] = new ItemCounter(item_list[i]);
+        for (Item i : item_list) {
+            data.add(new ItemCounter(i));
         }
 
         //sort the data array by name
-        Arrays.sort(data,(a,b) -> {return ((Item)a.element).getItemName().compareTo(((Item)b.element).getItemName());});
+        Collections.sort(data,(a, b) -> {return ((Item)a.element).getItemName().compareTo(((Item)b.element).getItemName());});
 
         /*
 
@@ -58,8 +63,8 @@ public class ItemCounterContainer extends Monads.CounterContainer {
      */
     public  double totalCost() {
         double ret_val = 0;
-        for (ItemCounter ic: (ItemCounter []) data) {
-            ret_val += ic.cost();
+        for (int i = 0; i < data.size(); i++) {
+            ret_val += ((ItemCounter)data.get(i)).cost();
         }
         return ret_val;
     }
@@ -89,7 +94,10 @@ public class ItemCounterContainer extends Monads.CounterContainer {
     @Override
     public  String toString() {
         String ret_val = "Items List:\n";
-        for (ItemCounter ic: (ItemCounter[])data) {
+        for (int i = 0; i < data.size(); i++) {
+            //cache a reference to the data for convenience
+            ItemCounter ic = (ItemCounter) data.get(i);
+
             if (ic.count != 0) {
                 ret_val += String.format("   %-23s$ %.2f\n", ic.toString(), ic.cost());
             }
