@@ -11,7 +11,6 @@ package CashProgram;
 import CashItems.*;
 
 import java.io.File;
-import java.util.Locale;
 import java.util.Scanner;
 
 /**
@@ -41,7 +40,7 @@ public class CashRegister {
      * @param s the string to display to the user
      */
     public static void say(String s) {
-        say(s,"%-26s");
+        say(s,PROGRAM_FORMATING);
     }
 
     /**
@@ -165,7 +164,7 @@ public class CashRegister {
      * @return integer that the user typed
      */
     public  static int askInt(String question) {
-        return askInt(question,"Enter a valid integer:");
+        return askInt(question,"!!Invalid Integer\n\n" + question);
     }
 
     /**
@@ -182,6 +181,41 @@ public class CashRegister {
         }
         return id;
     }
+
+
+    /**
+     * asks the user for a product code, throws an exception if an invalid product code is given
+     *
+     *
+     * @param icc item counter container, used to determine what product codes are valid
+     * @return valid product code, or -1 indicating a terminating response
+     */
+    public  static String productCodeCommand(ItemCounterContainer icc) {
+        String id = ask("Enter Product Code:");
+        boolean run = !icc.contains(id);
+        while (run && !(id.equals( "-1") || id.equals( "0000"))) { //we run until we get a command input, or a valid id
+
+            //this try catch block works and is required for the assignment,
+            //but checking this would be SO much better if we just used booleans as
+            //return flags, that's basically what this is doing but in a round-about
+            //inefficient and clunky way with except. Still it is in the assignment requirements so we
+            //include it here
+
+            try {
+                icc.exceptionCheckItemCode(id);
+                run = false;
+                break;
+            } catch (Item.ItemCode.MalformedItemCodeException e) {
+                say("!!Invalid Data Type",PROGRAM_FORMATING + "\n\n");
+            } catch (ItemCounterContainer.ItemCodeNotInContainerException e) {
+                say("!!Invalid Item Code",PROGRAM_FORMATING + "\n\n");
+            }
+
+            id = ask("Enter Product Code:");
+        }
+        return id;
+    }
+
 
     /**
      * displays a separator on standard out
@@ -224,7 +258,7 @@ public class CashRegister {
 
             if (userInput.toUpperCase().equals("Y")) {
                 //demand a valid product code
-                String productCode = askProductCode(icc);
+                String productCode = productCodeCommand(icc);
 
                 while (!productCode.equals("-1")) {
                     //print out to the screen in a nice formated way
@@ -240,7 +274,7 @@ public class CashRegister {
 
 
                     //demand a valid product code
-                    productCode = askProductCode(icc);
+                    productCode = productCodeCommand(icc);
                 }
 
 
@@ -272,6 +306,7 @@ public class CashRegister {
                 run = false;
             }
         }
+
         System.out.println("\nThe total sale for the day is $" + String.format("%.2f\n",dailyTotal));
         System.out.println("Thank you for using POS system. Goodbye!");
     }

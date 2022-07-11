@@ -42,7 +42,7 @@ public class Item {
          * @param s string to test
          * @return true if the given s is a valid item code
          * */
-        public boolean validItemCode(String s) {
+        public static boolean validItemCode(String s) {
             Pattern p = Pattern.compile("[A-Za-z][A-Za-z\\d]\\d\\d",Pattern.DOTALL);
             Matcher m = p.matcher(s);
 
@@ -53,7 +53,7 @@ public class Item {
         *
         * @param s the string to validate
         * */
-        public void malformedItemExceptionCheck(String s)
+        public static void malformedItemExceptionCheck(String s)
                 throws MalformedItemCodeException {
             if (!validItemCode(s)) {
                 throw new MalformedItemCodeException();

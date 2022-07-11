@@ -9,7 +9,6 @@
       <change beforePath="$PROJECT_DIR$/src/CashItems/Item.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/CashItems/Item.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/CashItems/ItemCounterContainer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/CashItems/ItemCounterContainer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/CashProgram/CashRegister.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/CashProgram/CashRegister.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/items.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/items.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

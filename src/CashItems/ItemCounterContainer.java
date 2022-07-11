@@ -13,6 +13,13 @@ import java.util.Collections;
  * counters
  */
 public class ItemCounterContainer extends Monads.CounterContainer {
+    /** utility exception that is thrown when the given item is not found*/
+    public static class ItemCodeNotInContainerException extends Exception {
+
+    }
+
+
+
     /*
      * java appears to have very ugly higher order functions
      * which makes since as its an oop language
@@ -126,6 +133,22 @@ public class ItemCounterContainer extends Monads.CounterContainer {
                         (i) -> {return ((Item)((ItemCounter)(i)).element).getItemCodeString().equals(id);},
                         (j)->{ return true;} )
             );//if we return anything from our generic array search, then we are not null and we need to be true
+    }
+    /**
+     * simple function that throws an exception if we do NOT contain the given item or if the given item code is invalid
+     *
+     * @param id the item id that we are looking for
+     * */
+    public void exceptionCheckItemCode(String id)
+            throws ItemCodeNotInContainerException,
+            Item.ItemCode.MalformedItemCodeException {
+
+        //throw the malformedItemCodeException if id is invalid
+        Item.ItemCode.malformedItemExceptionCheck(id);
+
+        if (!contains(id)) {
+            throw new ItemCodeNotInContainerException();
+        }
     }
 
     /**
