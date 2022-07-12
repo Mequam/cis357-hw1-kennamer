@@ -121,6 +121,41 @@ public class ItemCounterContainer extends Monads.CounterContainer {
         return ret_val;
     }
 
+    /**
+    * removes the counter with the given item code
+     *
+     * @param itemCode the item code of the counter that we want to remove
+    * */
+    public  void remove(Item.ItemCode itemCode) {
+        remove(itemCode.getValue());
+    }
+    /**
+     * removes the counter with the given item code string
+     *
+     * @param itemCode the item code of the counter that we want to remove
+     * */
+    public void remove(String itemCode) {
+        remove(get_counter(itemCode));
+    }
+    public Item.ItemCode askContainedItemCode(String question, String formating) {
+        Item.ItemCode code = Item.ItemCode.askItemCode(question,formating);
+
+        while (!contains(code)) {
+            System.out.printf(formating,"!!Item Code Does Not Exist\n");
+            code = Item.ItemCode.askItemCode(question,formating);
+        }
+
+        return code;
+    }
+    /** adds a new Item Counter to the container
+     * @param i an item counter to add*/
+    public  void add(ItemCounter i) {
+        data.add((Counter) i);
+    }
+    public void add( Item i ) {
+        ItemCounter to_add = new ItemCounter(i);
+        data.add(to_add);
+    }
 
     public String type_display_string() {
         String ret_val = String.format(Item.DISPLAY_STRING_FORMAT + "\n","Item Code","Item Name","Unit Price");
@@ -130,6 +165,18 @@ public class ItemCounterContainer extends Monads.CounterContainer {
         }
         return ret_val;
     }
+
+    /**
+     * returns true if the object types contain the given id @param id the id
+     *
+     * @param itemCode the item code object that we will test for
+     * @return returns true if the container has a type of id inside it
+     */
+    public boolean contains(Item.ItemCode itemCode) {
+        return contains(itemCode.getValue());
+    }
+
+
     /**
      * returns true if the object types contain the given id @param id the id
      *

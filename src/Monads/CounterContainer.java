@@ -24,6 +24,30 @@ public class CounterContainer {
     }
 
     /**
+     * adds a new counter to the data
+     * @param c new counter to add
+     * */
+    public  void add(Counter c) {
+        data.add(c);
+    }
+
+    /**
+     * removes the counter at the given index
+     *
+     * @param c the index of the counter to remove
+     * */
+    public void remove(int c) {
+        data.remove(c);
+    }
+    /**
+     * removes the counter at the given reference from our data
+     *
+     * @param c reference to the counter that we want to remove
+     * */
+    public void remove(Counter c) {
+        data.remove(c);
+    }
+    /**
      * create a new counter container of the given length @param length the length
      *
      * @param length the number of memory slots initialized in the container

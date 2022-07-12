@@ -11,6 +11,7 @@ package CashProgram;
 import CashItems.*;
 
 import java.io.File;
+import java.util.Locale;
 import java.util.Scanner;
 
 /**
@@ -176,7 +177,7 @@ public class CashRegister {
      */
     public  static String askProductCode(ItemCounterContainer icc) {
         String id = ask("Enter Product Code:");
-        while (!(icc.contains(id) || id.equals("-1"))) {
+        while (!(icc.contains(id))) {
             id = ask("Enter Valid Product Code:");
         }
         return id;
@@ -312,6 +313,30 @@ public class CashRegister {
         }
 
         System.out.println("\nThe total sale for the day is $" + String.format("%.2f\n",dailyTotal));
+
+        System.out.print("Do you want to update the item data? (A/D/M/Q): ");
+        String response = inScan.nextLine();
+
+
+        switch (response.toUpperCase()) {
+            case "A":
+                //create a new item using user inputs
+                Item i = new Item();
+                icc.add(i); // add it
+                break;
+            case "D":
+                System.out.println("they want to delete an item");
+                break;
+            case "M":
+                break;
+            case "Q":
+                break;
+
+        }
+
+        printSeperator();
+        System.out.println( "\n" + icc.type_display_string());
+
         System.out.println("Thank you for using POS system. Goodbye!");
     }
 }

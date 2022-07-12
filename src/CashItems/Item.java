@@ -1,5 +1,6 @@
 package CashItems;
 
+import java.awt.*;
 import java.io.File;
 import java.util.Scanner;
 
@@ -17,6 +18,14 @@ public class Item {
      * contains several convenience functions for working with strings in the desired format
      * */
     static public class ItemCode {
+        /**
+         * tests if two item codes are the same data
+         *
+         * @param ic Item code to test
+         * */
+        public  boolean equals(ItemCode ic) {
+            return ic.value.equals(value);
+        }
         /**Custom exception that is called if a malformed item code string is given as an item code*/
         static public class MalformedItemCodeException extends IllegalArgumentException {
 
@@ -66,6 +75,28 @@ public class Item {
             //otherwise set value equal to s
             value = s;
         }
+
+
+        /**
+         * demands a valid item code formating from the user
+         * */
+        static ItemCode askItemCode(String question,String formating) {
+            Scanner inscan = new Scanner(System.in);
+            System.out.print(String.format(formating,question));
+            try {
+                String itemCode = inscan.nextLine();
+                return new ItemCode(itemCode);
+
+            }
+            catch (MalformedItemCodeException e) {
+                System.out.println("!!Invalid Data Type");
+                return askItemCode(question,formating); //hideous recursion trick to demand a valid item code
+                                                        //also experimenting with recursion in java
+            }
+
+
+
+        }
     }
     /** this function initializes an item, we use it apposed to the constructor so we can call it on lines OTHER than the first one*/
     private  void load(String code, String name, double unitPrice) {
@@ -74,6 +105,11 @@ public class Item {
         this.unitPrice = unitPrice;
     }
 
+   /**generates a new item variable by asking the user for information
+    * */
+    public  Item() {
+        fill_using_ask();
+    }
     /**
      * generates a new item variable
      *
@@ -182,7 +218,95 @@ public class Item {
 */
 
     }
+    /**
+     * queries the user to give us a new item
+     * sets the values of the current item to the given query
+     * */
+    public void fill_using_ask() {
+        fill_using_ask(DEFAULT_FORMATING);
+    }
+    /**
+     * queries the user to give us a new item
+     * sets the values of the current item to the given query
+     * */
+    public void fill_using_ask(String formating) {
+        askCode("Item Code:",formating);
+        askName("Item Name:",formating);
+        askUnitPrice("Unit Price:",formating);
+    }
+    void askCode(String question) {
+        askCode(question,DEFAULT_DOUBLE_FORMATING);
+    }
+    /**queries the user to set the item code for this item*/
+    void askCode(String question,String formating) {
+        itemCode = ItemCode.askItemCode(question,formating);
+    }
+    /**queries the user to ask about the name of the item*/
+    void askName(String question) {
+        askName(question,DEFAULT_DOUBLE_FORMATING);
+    }
+    /**queries the user to ask about the name of the item*/
+    void askName(String question,String formating) {
+        System.out.print(String.format(formating,question));
 
+        Scanner inscan = new Scanner(System.in);
+
+        itemName = inscan.nextLine();
+    }
+
+    public  static final String DEFAULT_FORMATING = "%-26s";
+    public static final String DEFAULT_DOUBLE_FORMATING = DEFAULT_FORMATING;
+
+    public  static double askDouble() {
+        return askDouble("Unit Price:");
+    }
+    public  static  double askDouble(String question) {
+        return askDouble(question, "!!invalid decimal\n" + question);
+    }
+
+    public  static  double askDouble(String question, String angry_question) {
+        return askDouble(question, angry_question, DEFAULT_DOUBLE_FORMATING, DEFAULT_DOUBLE_FORMATING);
+    }
+
+    public  static  double askDouble(String question, String angry_question,String formating) {
+        return askDouble(question,angry_question,formating,formating);
+    }
+    /**
+     * demands a valid double input from the user, used for unit price
+     *
+     * @param question       the question to ask the user
+     * @param angry_question the angry question to ask the user when they give us an invalid double
+     * @param formating the formating used in the base question
+     * @param angry_formating the formating used if the user gives us incorrect data
+     * @return a valid double typed by the user
+     */
+    public  static  double askDouble(String question, String angry_question,String formating,String angry_formating) {
+        Scanner inscan = new Scanner(System.in);
+
+        System.out.print(String.format(formating,question));
+
+        String a = inscan.nextLine();
+
+        boolean good_responce = false;
+
+        double ret_val = 0;
+        while (!good_responce) {
+            try {
+                ret_val = Double.parseDouble(a);
+                good_responce = true;
+            }
+            catch (Exception e) {
+                System.out.println(String.format(angry_formating,angry_question));
+                a = inscan.nextLine();
+            }
+        }
+        return ret_val;
+    }
+
+    /**queries the user to ask about the price of the item*/
+    void askUnitPrice(String question,String formating) {
+        unitPrice = askDouble(question,"Invalid Unit Price!!\n" + question,formating);
+    }
     //formating used for the display string
     protected static final String  DISPLAY_STRING_FORMAT = "%-12s%-24s%-12s";
 
