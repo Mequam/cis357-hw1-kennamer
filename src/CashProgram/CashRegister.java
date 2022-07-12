@@ -261,18 +261,22 @@ public class CashRegister {
                 String productCode = productCodeCommand(icc);
 
                 while (!productCode.equals("-1")) {
-                    //print out to the screen in a nice formated way
-                    System.out.print(String.format("%8s %-17s","","item name:"));
-                    say(icc.get_type_name(productCode),"%s\n");
-                    int amount = askInt("Enter Quantity: ");
+                    if (productCode.equals("0000")) {
+                        System.out.println("\n" + icc.type_display_string());
+                    }
+                    else {
+                        //print out to the screen in a nice formated way
+                        System.out.print(String.format("%8s %-17s", "", "item name:"));
+                        say(icc.get_type_name(productCode), "%s\n");
+                        int amount = askInt("Enter Quantity: ");
 
-                    //actually store the increase in amount
-                    icc.get_counter(productCode).count += amount;
+                        //actually store the increase in amount
+                        icc.get_counter(productCode).count += amount;
 
-                    double itemTotal = icc.get_type_cost(productCode)*amount;
-                    System.out.println(String.format("%7s %-17s $ %.02f\n","","item total:",itemTotal));
+                        double itemTotal = icc.get_type_cost(productCode) * amount;
+                        System.out.println(String.format("%7s %-17s $ %.02f\n", "", "item total:", itemTotal));
 
-
+                    }
                     //demand a valid product code
                     productCode = productCodeCommand(icc);
                 }

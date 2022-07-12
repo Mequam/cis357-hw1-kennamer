@@ -121,6 +121,15 @@ public class ItemCounterContainer extends Monads.CounterContainer {
         return ret_val;
     }
 
+
+    public String type_display_string() {
+        String ret_val = String.format(Item.DISPLAY_STRING_FORMAT + "\n","Item Code","Item Name","Unit Price");
+        for (int i = 0; i < data.size(); i++) {
+            ItemCounter ic = ((ItemCounter) data.get(i));
+            ret_val += ((Item)ic.element).display_string() + "\n";
+        }
+        return ret_val;
+    }
     /**
      * returns true if the object types contain the given id @param id the id
      *

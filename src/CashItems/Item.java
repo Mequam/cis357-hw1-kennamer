@@ -183,6 +183,16 @@ public class Item {
 
     }
 
+    //formating used for the display string
+    protected static final String  DISPLAY_STRING_FORMAT = "%-12s%-24s%-12s";
+
+    /**returns a string representation of the item formated for user display
+     *
+     * @return returns the item displayed as a formated string
+     * */
+    public  String display_string() {
+        return String.format(DISPLAY_STRING_FORMAT,getItemCodeString(),getItemName(),getUnitPrice());
+    }
     /**
      * generates and returns a new array of item types from the given file path
      *
