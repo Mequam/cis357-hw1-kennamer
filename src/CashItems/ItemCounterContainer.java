@@ -278,6 +278,13 @@ public class ItemCounterContainer extends Monads.CounterContainer {
             sortData();
         }
     }
+
+    /**
+     * adds an item counter containing the given item to the data array,
+     * the new item counter contains a count of 0
+     *
+     * @param i item to add
+     * */
     public void add( Item i ) {
         ItemCounter to_add = new ItemCounter(i);
         data.add(to_add);
@@ -286,6 +293,11 @@ public class ItemCounterContainer extends Monads.CounterContainer {
         }
     }
 
+    /**
+     * gets a string representing the items contained in this container and inteanded
+     * to be seen directly by the user
+     *
+     * */
     public String type_display_string() {
         String ret_val = String.format(Item.DISPLAY_STRING_FORMAT + "\n","Item Code","Item Name","Unit Price");
         for (int i = 0; i < data.size(); i++) {
@@ -382,7 +394,6 @@ public class ItemCounterContainer extends Monads.CounterContainer {
                 }
         );
     }
-    /*TODO: the other get_x functions could be re-writen as return get_item(id).x; and some null checking*/
 
     /**
      * gets the item inside the container containing the given id @param id the id

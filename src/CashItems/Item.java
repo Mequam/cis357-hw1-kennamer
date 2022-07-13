@@ -83,6 +83,12 @@ public class Item {
                 throw new MalformedItemCodeException();
             }
         }
+        /**
+         * creates a new item code with the given value string,
+         * throws an exception if s is not a valid item code
+         *
+         * @param s string to set our value to
+         * */
         ItemCode(String s) {
             //throw an exception if the given string is not valid
             malformedItemExceptionCheck(s);
@@ -266,18 +272,33 @@ public class Item {
         askName("Item Name:",formating);
         askUnitPrice("Unit Price:",formating);
     }
+
+    /**
+     * asks the user to type a valid item code string
+     *
+     * @param question the question to display to the user
+     * */
     void askCode(String question) {
         askCode(question,DEFAULT_DOUBLE_FORMATING);
     }
-    /**queries the user to set the item code for this item*/
+    /**queries the user to set the item code for this item
+     *
+     * @param question the string to display to the user
+     * @param formating the formating to use when displaying that question
+     * */
     void askCode(String question,String formating) {
         itemCode = ItemCode.askItemCode(question,formating);
     }
-    /**queries the user to ask about the name of the item*/
+    /**queries the user to ask about the name of the item
+     * @param question the question to display to the user
+     * */
     void askName(String question) {
         askName(question,DEFAULT_DOUBLE_FORMATING);
     }
-    /**queries the user to ask about the name of the item*/
+    /**queries the user to ask about the name of the item
+     * @param question the question to display to the user
+     * @param formating how to format the question
+     * */
     void askName(String question,String formating) {
         System.out.print(String.format(formating,question));
 
@@ -286,25 +307,56 @@ public class Item {
         itemName = inscan.nextLine();
     }
 
+    /**
+     * default formating used when generating strings to display for items
+     * */
     public  static final String DEFAULT_FORMATING = "%-26s";
+    /**
+     * default formating for doubles to display from the item class,
+     * currently the same as DEFAULT_FORMATING
+     * */
     public static final String DEFAULT_DOUBLE_FORMATING = DEFAULT_FORMATING;
 
+    /**
+     * demand a valid double from the user
+     * @return a double that the user typed
+     * */
     public  static double askDouble() {
         return askDouble("Unit Price:");
     }
+    /**
+     * demand a valid double from the user
+     * @param question the question to ask
+     * @return a double that the user typed
+     * */
     public  static  double askDouble(String question) {
         return askDouble(question, "!!invalid decimal\n" + question);
     }
 
+    /**
+     * demand a valid double from the user
+     * @param question the string to display to the user
+     * @param angry_question the string to display to the user if they type invalid data
+     * @return a double the user typed
+     */
     public  static  double askDouble(String question, String angry_question) {
         return askDouble(question, angry_question, DEFAULT_DOUBLE_FORMATING, DEFAULT_DOUBLE_FORMATING);
     }
 
+    /**
+     * demand a valid double from the user
+     * @param question the string to display to the user
+     * @param angry_question the string to display to the user if they type invalid data
+     * @param formating how to format the question first question that is asked to the user
+     * @return a double the user typed
+     * */
     public  static  double askDouble(String question, String angry_question,String formating) {
         return askDouble(question,angry_question,formating,formating);
     }
     /**
      * demands a valid double input from the user, used for unit price
+     *
+     * goodness gracious java needs to add optional parameters
      *
      * @param question       the question to ask the user
      * @param angry_question the angry question to ask the user when they give us an invalid double
@@ -351,6 +403,7 @@ public class Item {
         unitPrice = askDouble(question,"Invalid Unit Price!!\n" + question,formating);
     }
     //formating used for the display string
+    /**default formating used when making a display string of ourselfs for the user*/
     protected static final String  DISPLAY_STRING_FORMAT = "%-12s%-24s%-12s";
 
     /**returns a string representation of the item formated for user display
@@ -418,6 +471,4 @@ public class Item {
     public double getUnitPrice() {
         return unitPrice;
     }
-
-
 }

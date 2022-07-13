@@ -104,6 +104,9 @@ public class HW2_kennamer {
         return askFile(question,angry_question,PROGRAM_FORMATING);
     }
 
+    /**
+     * Constant formating used when displaying text to the user
+     * */
     private static final String  PROGRAM_FORMATING = "%-26s";
     /**
      * gets a string response from the user
