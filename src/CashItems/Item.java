@@ -110,6 +110,17 @@ public class Item {
     public  Item() {
         fill_using_ask();
     }
+
+    /**
+     * generates a new item with the given code,
+     * asks the user for the item name and unit price
+     * as ALL items must have that information
+     * */
+    public Item(ItemCode ic) {
+        itemCode = ic;
+        askName("Item Name:");
+        askUnitPrice("Unit Price:");
+    }
     /**
      * generates a new item variable
      *
@@ -135,6 +146,12 @@ public class Item {
         );
     }
 
+    /**
+     * returns the item represented as a csv line
+     * */
+    public String to_csv_line() {
+        return String.format("%s,%s,%.2f",getItemCodeString(),getItemName(),getUnitPrice());
+    }
     /**
      * gets the number of item entries in a given file, useful for pre-building arrays
      *
@@ -303,7 +320,18 @@ public class Item {
         return ret_val;
     }
 
-    /**queries the user to ask about the price of the item*/
+    /**
+     *
+     * @param question the question to display to the user when we ask for a unit price
+     * */
+    void askUnitPrice(String question) {
+        askUnitPrice(question,Item.DEFAULT_FORMATING);
+    }
+    /** queries the user to ask about the price of the item
+     *
+     * @param question the question to display to the user when we ask for a unit price
+     * @param formating the formating used to display the question
+     * */
     void askUnitPrice(String question,String formating) {
         unitPrice = askDouble(question,"Invalid Unit Price!!\n" + question,formating);
     }

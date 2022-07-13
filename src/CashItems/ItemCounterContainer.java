@@ -3,6 +3,8 @@ package CashItems;
 import Monads.Counter;
 
 import java.io.File;
+import java.io.FileWriter;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -13,6 +15,14 @@ import java.util.Collections;
  * counters
  */
 public class ItemCounterContainer extends Monads.CounterContainer {
+
+
+    /**
+     * tells the item counter whether to sort data on add,
+     * used for efficiency if we do not care about sorting
+     * */
+    public boolean doSort = true;
+
     /** utility exception that is thrown when the given item is not found*/
     public static class ItemCodeNotInContainerException extends Exception {
 
@@ -43,7 +53,52 @@ public class ItemCounterContainer extends Monads.CounterContainer {
         this(new File(file));
     }
 
+    /**
+     * initilizes a sort of the data contained inside of our data variable
+     * */
+    public void sortData() {
+        Collections.sort(data,(a, b) -> {return ((Item)a.element).getItemName().compareTo(((Item)b.element).getItemName());});
+    }
+
+    /**
+     * reference to the file containing the data in the object
+     * */
+    java.io.File dataFile;
+
+    /**
+     * saves the types in the container out to the file that we originally read from
+     * */
+    public void save() {
+        save(dataFile);
+    }
+    /**
+     * saves the types in the container out to the disk
+     *
+     * @param f the file that we save to
+     * */
+    public  void save(java.io.File f) {
+        FileWriter fw;
+        try {
+          fw = new FileWriter(f);
+
+          for (int i = 0; i < data.size() ; i ++) {
+              fw.write(((Item)((ItemCounter)data.get(i)).element).to_csv_line() + "\n");
+          }
+
+          fw.close();
+        }
+        catch (Exception e) {
+
+        }
+
+    }
+
+    /**
+     *
+     * initilizes the lass using data from a csv file pointed to by f
+     * */
     public ItemCounterContainer(java.io.File f) {
+        dataFile = f;
         Item [] item_list = Item.gen_item_list(f);
 
         data = new ArrayList<Counter>();
@@ -53,9 +108,12 @@ public class ItemCounterContainer extends Monads.CounterContainer {
             data.add(new ItemCounter(i));
         }
 
-        //sort the data array by name
-        Collections.sort(data,(a, b) -> {return ((Item)a.element).getItemName().compareTo(((Item)b.element).getItemName());});
-
+        if (doSort) {
+            //sort the data array by name
+            Collections.sort(data, (a, b) -> {
+                return ((Item) a.element).getItemName().compareTo(((Item) b.element).getItemName());
+            });
+        }
         /*
 
             for debugging purposes, to see the items loaded, uncomment the following code
@@ -137,6 +195,66 @@ public class ItemCounterContainer extends Monads.CounterContainer {
     public void remove(String itemCode) {
         remove(get_counter(itemCode));
     }
+
+    /***
+     * overide the parent remove function to contain sorting behavior
+     *
+     * @param idx index of a counter to remove from the container
+     */
+    @Override
+    public void remove(int idx) {
+        super.remove(idx);
+        if (doSort) {
+            sortData();
+        }
+    }
+
+    /**
+     * overide the parent remove function to contain sorting behavior
+     *
+     * @param i counter to remove
+     * */
+    @Override
+    public void remove(Counter i) {
+        super.remove(i);
+        if (doSort) {
+            sortData();
+        }
+    }
+
+    /**
+     * demands a valid item code from the user running the program
+     *
+     * a valid item code bieng any item code stored within the container
+     *
+     * @return the item code that the user typed
+     * */
+
+    public Item.ItemCode askContainedItemCode() {
+        return askContainedItemCode("Enter Item Code:",Item.DEFAULT_FORMATING);
+    }
+
+    /**
+     * demands a valid item code from the user running the program
+     *
+     * a valid item code bieng any item code stored within the container
+     *
+     * @param question display question to ask the user
+     * @return the item code that the user typed
+     * */
+
+    public Item.ItemCode askContainedItemCode(String question) {
+        return askContainedItemCode(question,Item.DEFAULT_FORMATING);
+    }
+    /**
+     * demands a valid item code from the user running the program
+     *
+     * a valid item code bieng any item code stored within the container
+     *
+     * @param question display question to ask the user
+     * @param formating the format string for that question
+     * @return the item code that the user typed
+     * */
     public Item.ItemCode askContainedItemCode(String question, String formating) {
         Item.ItemCode code = Item.ItemCode.askItemCode(question,formating);
 
@@ -151,10 +269,16 @@ public class ItemCounterContainer extends Monads.CounterContainer {
      * @param i an item counter to add*/
     public  void add(ItemCounter i) {
         data.add((Counter) i);
+        if (doSort) {
+            sortData();
+        }
     }
     public void add( Item i ) {
         ItemCounter to_add = new ItemCounter(i);
         data.add(to_add);
+        if (doSort) {
+            sortData();
+        }
     }
 
     public String type_display_string() {

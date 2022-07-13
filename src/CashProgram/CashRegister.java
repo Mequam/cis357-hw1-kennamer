@@ -1,11 +1,26 @@
-// Homework 1: Sales Register Program
+// Homework 2: Sales Register Program Updated
 // Course: CIS357
-// Due date: Tue Jul 5th 11:59pm
-// GitHub: https://github.com/Mequam/cis357-hw1-kennamer
+// Due date: Tue Jul 12 11:59pm
+// GitHub: https://github.com/Mequam/cis357-hw1-kennamer, tag: hw2-release-v2.0.0
 // Instructor: Il-Hyung Cho
-// A simple cash register program made to practice the basics of java
+// A simple cash register program made to practice ArrayLists
 // to run the program, compile it on the command line, then call it from the command line with
 // the file path to a csv file in the form id, name, unit price
+// if no path is given, the program will prompt for one
+/*
+    Program features:
+    Change the item code type to String: Y
+    Provide the input in CSV format. Ask the user to enter the input file name: Y
+    Implement exception handling for
+        File input: Y
+        Checking wrong input data type: Y
+        Checking invalid data value: Y
+        Tendered amount less than the total amount: Y
+    Use ArrayList for the items data: Y
+    Adding item data: Y
+    Deleting item data: Y
+    Modifying item data: Y
+*/
 
 package CashProgram;
 import CashItems.*;
@@ -242,7 +257,6 @@ public class CashRegister {
         }
         else {
             icc = new ItemCounterContainer(askFile("Item File: ","Item File: "));
-
         }
         System.out.println("Welcome to Kennamer cash register system!\n");
 
@@ -317,25 +331,40 @@ public class CashRegister {
         System.out.print("Do you want to update the item data? (A/D/M/Q): ");
         String response = inScan.nextLine();
 
+        while (!response.toUpperCase().equals( "Q")) {
 
-        switch (response.toUpperCase()) {
-            case "A":
-                //create a new item using user inputs
-                Item i = new Item();
-                icc.add(i); // add it
-                break;
-            case "D":
-                System.out.println("they want to delete an item");
-                break;
-            case "M":
-                break;
-            case "Q":
-                break;
+            switch (response.toUpperCase()) {
+                case "A" -> {
+                    //create a new item using user inputs
+                    Item i = new Item();
+                    icc.add(i); // add it
 
+                    System.out.println("Item addition successful!\n");
+                }
+                case "D" -> {
+                    icc.remove(icc.askContainedItemCode());
+
+                    System.out.println("Item delete successful!\n");
+                }
+                case "M" -> {
+                    Item.ItemCode target = icc.askContainedItemCode(); // get an item code from the collection
+                    Item ni = new Item(target); //make an ew item with that code, asks the user for input
+                    icc.remove(ni.getItemCode()); //remove the existing item with the matching code
+
+                    icc.add(new ItemCounter(ni)); //add and sort the new item
+                    icc.sortData();
+
+                    System.out.println("Item modification successful!\n");
+                }
+            }
+
+            System.out.print("Do you want to update the item data? (A/D/M/Q): ");
+            response = inScan.nextLine();
         }
-
         printSeperator();
         System.out.println( "\n" + icc.type_display_string());
+
+        icc.save();
 
         System.out.println("Thank you for using POS system. Goodbye!");
     }
