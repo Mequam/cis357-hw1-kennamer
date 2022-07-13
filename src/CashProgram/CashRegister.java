@@ -1,27 +1,3 @@
-// Homework 2: Sales Register Program Updated
-// Course: CIS357
-// Due date: Tue Jul 12 11:59pm
-// GitHub: https://github.com/Mequam/cis357-hw1-kennamer, tag: hw2-release-v2.0.0
-// Instructor: Il-Hyung Cho
-// A simple cash register program made to practice ArrayLists
-// to run the program, compile it on the command line, then call it from the command line with
-// the file path to a csv file in the form id, name, unit price
-// if no path is given, the program will prompt for one
-/*
-    Program features:
-    Change the item code type to String: Y
-    Provide the input in CSV format. Ask the user to enter the input file name: Y
-    Implement exception handling for
-        File input: Y
-        Checking wrong input data type: Y
-        Checking invalid data value: Y
-        Tendered amount less than the total amount: Y
-    Use ArrayList for the items data: Y
-    Adding item data: Y
-    Deleting item data: Y
-    Modifying item data: Y
-*/
-
 package CashProgram;
 import CashItems.*;
 
