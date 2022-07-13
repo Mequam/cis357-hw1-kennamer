@@ -157,7 +157,12 @@ public class ItemCounterContainer extends Monads.CounterContainer {
      */
     public double taxedCost(double taxRate)
     {
-        return  totalCost() * (1+taxRate);
+
+        double ret_val = 0;
+        for (int i = 0; i < data.size(); i++) {
+            ret_val += ((ItemCounter)data.get(i)).dynamicCost();
+        }
+        return ret_val;
     }
     /** returns the item counter container as a string formatted for user eyes
      *

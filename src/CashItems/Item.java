@@ -12,12 +12,27 @@ import java.util.regex.Pattern;
  * like pythonic tuples. As such it is an IMMUTABLE type, and cannot be changed after creation
  */
 public class Item {
+
+    /**
+     * @return is this item taxed?
+     * */
+    public boolean getTaxed() {
+        return getItemCode().getTaxed();
+    }
     /**
      * represents an item code used to uniquely identify each item
      *
      * contains several convenience functions for working with strings in the desired format
      * */
     static public class ItemCode {
+
+        /**
+         * @return is this an item code that we need to tax?
+         * */
+        public boolean getTaxed() {
+            return (value.charAt(0) != 'B');
+        }
+
         /**
          * tests if two item codes are the same data
          *
@@ -394,6 +409,7 @@ public class Item {
     /** the price of a single unit of this item*/
     private double unitPrice;
 
+
     /**
      * the getter for the unitPrice of this item
      *
@@ -402,4 +418,6 @@ public class Item {
     public double getUnitPrice() {
         return unitPrice;
     }
+
+
 }

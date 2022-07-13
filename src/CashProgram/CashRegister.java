@@ -286,9 +286,12 @@ public class CashRegister {
                         int amount = askInt("Enter Quantity: ");
 
                         //actually store the increase in amount
-                        icc.get_counter(productCode).count += amount;
+                        ItemCounter c = icc.get_counter(productCode);
 
-                        double itemTotal = icc.get_type_cost(productCode) * amount;
+                        c.count += amount;
+
+                        double itemTotal = ItemCounter.cost((Item)c.element,amount);
+
                         System.out.println(String.format("%7s %-17s $ %.02f\n", "", "item total:", itemTotal));
 
                     }
@@ -310,7 +313,7 @@ public class CashRegister {
                 total -= payment;
 
                 while (total > 0) {
-                    System.out.println(String.format("%-26s$%.02f","Remaining charge:",total));
+                    System.out.println(String.format("%-26s$ %.02f","Remaining charge:",total));
                     payment = askDouble("Further payment required:");
                     total -= payment;
                 }
