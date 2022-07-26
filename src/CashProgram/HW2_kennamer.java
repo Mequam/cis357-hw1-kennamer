@@ -26,7 +26,6 @@ package CashProgram;
 import CashItems.*;
 
 import java.io.File;
-import java.util.Locale;
 import java.util.Scanner;
 
 /**
@@ -204,24 +203,28 @@ public class HW2_kennamer {
 
     /**
      * asks the user for a product code, throws an exception if an invalid product code is given
-     *
+     * we could probably make this better in the future by making the askItemCode accept a white list of valid
+     * values in an array, but this quick and dirty solution works atm
      *
      * @param pc item container to test against
      * @return valid product code, or -1 indicating a terminating response
      */
     public  static String productCodeCommand(ProductCatalog pc) {
         String id = ask("Enter Product Code:");
-        boolean run = !pc.contains(id);
-        while (run && !(id.equals( "-1") || id.equals( "0000"))) { //we run until we get a command input, or a valid id
-
-            if (!Item.ItemCode.validItemCode(id)) {
+        while (!pc.contains(id) && !(id.equals( "-1"))) { //we run until we get a command input, or a valid id
+            if (ProductSpecification.ItemCode.isControlCode(id)) {
+                /**
+                 * the control code indicates that we allways want to print to the screen
+                 * */
+                System.out.println(pc.type_display_string());
+            }
+            else if (!ProductSpecification.ItemCode.validItemCode(id)) {
                 say("!!Invalid Data Type", PROGRAM_FORMATING + "\n\n");
             } else {
                 say("!!Invalid Item Code",PROGRAM_FORMATING + "\n\n");
             }
 
             id = ask("Enter Product Code:");
-            run = !pc.contains(id);
         }
         return id;
     }
@@ -274,27 +277,18 @@ public class HW2_kennamer {
                 String productCode = productCodeCommand(productcat);
 
                 while (!productCode.equals("-1")) {
-                    //the user wants to display valid product codes
-                    if (productCode.equals("0000")) {
-                        System.out.println("\n" + productcat.type_display_string());
-                    }
-                    else {
+                    System.out.print(String.format("%8s %-17s", "", "item name:"));
 
-                        //we recived a valid product code
-                        //print out to the screen in a nice formated way
-                        System.out.print(String.format("%8s %-17s", "", "item name:"));
+                    //this is well formated because we made it to this sle
+                    ProductSpecification.ItemCode ic = new ProductSpecification.ItemCode(productCode);
 
+                    say(productcat.get_type_name(ic), "%s\n");
 
-                        //this is well formated because we made it to this sle
-                        Item.ItemCode ic = new Item.ItemCode(productCode);
+                    int amount = askInt("Enter Quantity: ");
 
-                        say(productcat.get_type_name(ic), "%s\n");
+                    //actually add the item to the register
+                    cashreg.enterItemVerbose(ic,amount);
 
-                        int amount = askInt("Enter Quantity: ");
-
-                        //actually add the item to the register
-                        cashreg.enterItemVerbose(ic,amount);
-                    }
                     //demand a valid product code
                     productCode = productCodeCommand(productcat);
                 }
@@ -304,6 +298,7 @@ public class HW2_kennamer {
                 printSeperator();
 
                 cashreg.endSale();
+
 
                 //we also want a new line before each run of the program
                 printSeperator();

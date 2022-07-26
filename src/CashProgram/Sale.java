@@ -1,15 +1,9 @@
 package CashProgram;
 
-import CashItems.Item;
+import CashItems.ProductSpecification;
 import CashItems.ItemCounter;
 import CashItems.ItemCounterContainer;
-import Monads.Counter;
 import askUtils.AskUtils;
-
-import java.io.File;
-import java.io.FileWriter;
-import java.util.ArrayList;
-import java.util.Collections;
 
 /**
  * represents a single sale, contains functions to demand sale
@@ -28,7 +22,12 @@ public class Sale extends ItemCounterContainer {
     public Sale() {
         super(0);
     }
-
+    /**
+     * syntactic sugar function to fulfill assignment specifications
+     * */
+    double getTotal () {
+        return taxedCost();
+    }
     /**
      * syntactic sugar rename of the item counter class for the
      * Sale class, this is here so that the class name matches
@@ -38,18 +37,27 @@ public class Sale extends ItemCounterContainer {
      * it just needed to be renamed to make the code match
      */
     class SalesLineItem extends ItemCounter {
-        public SalesLineItem(Item e) {
+        public SalesLineItem(ProductSpecification e) {
             super(e);
         }
-        public SalesLineItem(Item e, int count) {
+        public SalesLineItem(ProductSpecification e, int count) {
             super(e,count);
+        }
+        /**
+         * syntactic sugar function that reuturns the total cost of this sale
+         * this is here in case someone else was expecting this function name
+         * and needs it to be in the class, for all intetns and purposes
+         * the dynamicCost function should be used when computing cost for this item
+         * */
+        double getSubtotal() {
+            return dynamicCost();
         }
     }
 
     /**
      * returns a new line item from the users specification
      */
-    SalesLineItem makeLineItem(Item i,int count) {
+    SalesLineItem makeLineItem(ProductSpecification i, int count) {
         return new SalesLineItem(i,count);
     }
 
@@ -59,7 +67,7 @@ public class Sale extends ItemCounterContainer {
      * line item, formated out to the user for convinence
      *
      * */
-    void makeAndAddLineItemVerbose(Item id, int count) {
+    void makeAndAddLineItemVerbose(ProductSpecification id, int count) {
 
         SalesLineItem si = makeLineItem(id,count);
         System.out.println(String.format("%7s %-17s $ %.02f\n", "", "item total:", si.dynamicCost()));
@@ -69,7 +77,7 @@ public class Sale extends ItemCounterContainer {
     /**
      * creates a new line item and adds it to the container
      * */
-    void makeAndAddLineItem(Item id, int count) {
+    void makeAndAddLineItem(ProductSpecification id, int count) {
         add(makeLineItem(id,count));
     }
     /**

@@ -2,7 +2,6 @@ package CashItems;
 
 import askUtils.AskUtils;
 
-import java.awt.*;
 import java.io.File;
 import java.io.FileWriter;
 import java.util.ArrayList;
@@ -15,7 +14,7 @@ import java.util.regex.Pattern;
  * This class represents a TYPE of item, it is intended to be used as a programmatic type, much
  * like pythonic tuples. As such it is an IMMUTABLE type, and cannot be changed after creation
  */
-public class Item {
+public class ProductSpecification {
 
     /**
      * @return is this item taxed?
@@ -75,7 +74,7 @@ public class Item {
             Pattern p = Pattern.compile("[A-Za-z][A-Za-z\\d]\\d\\d",Pattern.DOTALL);
             Matcher m = p.matcher(s);
 
-            return  m.matches();
+            return  m.matches() || s.equals("0000"); //0000 is a special command code, indicating a wild card item
         }
        /**
         * throws a new MalformedItemExpression if the string s is not valid
@@ -102,6 +101,18 @@ public class Item {
             value = s;
         }
 
+        /**
+         * used to indicate if THIS item code is a special control code
+         * */
+        public boolean isControlCode() {
+            return ProductSpecification.ItemCode.isControlCode(value);
+        }
+        /**
+         * used to tell if a string is a valid item code
+         * */
+        public static boolean isControlCode(String s) {
+            return s.equals("0000");
+        }
         /**
          * demands a valid item code formating from the user
          * */
@@ -132,7 +143,7 @@ public class Item {
 
    /**generates a new item variable by asking the user for information
     * */
-    public  Item() {
+    public ProductSpecification() {
         fill_using_ask();
     }
 
@@ -141,14 +152,14 @@ public class Item {
      * asks the user for the item name and unit price
      * as ALL items must have that information
      * */
-    public Item(ItemCode ic) {
+    public ProductSpecification(ItemCode ic) {
         itemCode = ic;
         askName("Item Name:");
         askUnitPrice("Unit Price:");
     }
     @Override
     public boolean equals(Object i) {
-        return i instanceof Item && ((Item) i).getItemCode().equals(itemCode);
+        return i instanceof ProductSpecification && ((ProductSpecification) i).getItemCode().equals(itemCode);
     }
 
     /**
@@ -158,7 +169,7 @@ public class Item {
      * @param name      the name of the given item
      * @param unitPrice how much a single item costs
      */
-    public Item(String code,String name,double unitPrice) {
+    public ProductSpecification(String code, String name, double unitPrice) {
         load(code,name,unitPrice);
     }
 
@@ -167,7 +178,7 @@ public class Item {
      *
      * @param csvLine csv line representing this item, in the form: id,name,unitPrice
      */
-    public Item(String csvLine) {
+    public ProductSpecification(String csvLine) {
         String [] split_csv = csvLine.split(",");
         load(
                 split_csv[0].trim(),
@@ -228,7 +239,7 @@ public class Item {
     /**
      * writes the list of types out to the disc as a csv file
      * */
-    public static void save_list_csv(String f,ArrayList<Item> data) {
+    public static void save_list_csv(String f,ArrayList<ProductSpecification> data) {
         FileWriter fw;
 
         try {
@@ -245,7 +256,7 @@ public class Item {
     /**
      * returns a linked list containing items generated from a csv file
      * */
-    public static ArrayList<Item> gen_item_linked_list(String f) {
+    public static ArrayList<ProductSpecification> gen_item_linked_list(String f) {
         return gen_item_linked_list(new File(f));
     }
 
@@ -253,22 +264,22 @@ public class Item {
      * returns an array list (ll behind the scenes)
      * containing the items in the given csv file
      * */
-    public static ArrayList<Item> gen_item_linked_list(File f) {
+    public static ArrayList<ProductSpecification> gen_item_linked_list(File f) {
         try {
-            ArrayList<Item> ret_val = new ArrayList<Item>();
+            ArrayList<ProductSpecification> ret_val = new ArrayList<ProductSpecification>();
 
             Scanner s = new Scanner(f);
             int line = 0;
             while (s.hasNextLine()) {
                 String data = s.nextLine();
                 //generate a new item from our csv line
-                ret_val.add(new Item(data));
+                ret_val.add(new ProductSpecification(data));
                 line ++;
             }
             return ret_val;
         }
         catch (Exception e) {
-            return new ArrayList<Item>();
+            return new ArrayList<ProductSpecification>();
         }
     }
 
@@ -278,27 +289,27 @@ public class Item {
      * @param f file object to read from
      * @return an array of items contained in the given file
      */
-    public static Item[] gen_item_list(File f) {
+    public static ProductSpecification[] gen_item_list(File f) {
 
         try {
             int lineCount = gen_item_entry_count(f);
 
             //initilize the return value array
-            Item [] ret_val = new Item[lineCount];
+            ProductSpecification[] ret_val = new ProductSpecification[lineCount];
             Scanner s = new Scanner(f);
 
             int line = 0;
             while (s.hasNextLine()) {
                 String data = s.nextLine();
                 //generate a new item from our csv line
-                ret_val[line] = new Item(data);
+                ret_val[line] = new ProductSpecification(data);
                 line ++;
             }
 
             return ret_val;
         }
         catch (Exception e) {
-            return new Item[] {};
+            return new ProductSpecification[] {};
         }
     }
     /**
@@ -418,7 +429,7 @@ public class Item {
      * @param question the question to display to the user when we ask for a unit price
      * */
     void askUnitPrice(String question) {
-        askUnitPrice(question,Item.DEFAULT_FORMATING);
+        askUnitPrice(question, ProductSpecification.DEFAULT_FORMATING);
     }
     /** queries the user to ask about the price of the item
      *
@@ -445,12 +456,12 @@ public class Item {
      * @param fpath the file path to a csv file containing item types
      * @return an array of items generated from the given csv file
      */
-    public static Item [] gen_item_list(String fpath) {
+    public static ProductSpecification[] gen_item_list(String fpath) {
         try {
             File f = new File(fpath);
             return gen_item_list(f);
         } catch (Exception e) {
-            return new Item [] {};
+            return new ProductSpecification[] {};
         }
     }
 

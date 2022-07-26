@@ -1,10 +1,6 @@
 package CashProgram;
 import CashItems.*;
 
-import java.io.File;
-import java.util.Locale;
-import java.util.Scanner;
-
 /**
  * The main class of the program,
  * represents a cash register that sells individual items
@@ -43,24 +39,18 @@ public class CashRegister {
     }
     /**
      *
-     * prompts the user for the given contained item
-     */
-    void promptContainedItem() {
-    }
-    /**
-     *
      * puts a new item into the current sale
      *
      * */
-    void enterItem(Item.ItemCode id, int quantity) {
+    void enterItem(ProductSpecification.ItemCode id, int quantity) {
         if (current_sale != null) {
-            current_sale.makeLineItem(new Item(id),quantity);
+            current_sale.makeLineItem(new ProductSpecification(id),quantity);
         }
     }
     /**
      * enter an item and tell the user what we are doing
      * */
-    void enterItemVerbose(Item.ItemCode id,int quantity) {
+    void enterItemVerbose(ProductSpecification.ItemCode id, int quantity) {
         if (current_sale != null && catalog_reference.contains(id)) {
             current_sale.makeAndAddLineItemVerbose(
                     catalog_reference.getSpecification(id),
@@ -79,6 +69,9 @@ public class CashRegister {
             //we use the sale function which does NOT include tax
             //becomeComplete does nothing if the current sale is already complete
             current_sale.becomeComplete();
+            System.out.printf("%-26s$ %.02f\n","Change:",
+                                Math.abs(current_sale.taxedCost() - current_sale.amount)
+                            );
             dailyTotal += current_sale.totalCost(); //make sure to save the cost of the current sale
         }
     }

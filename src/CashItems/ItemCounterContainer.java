@@ -4,7 +4,6 @@ import Monads.Counter;
 
 import java.io.File;
 import java.io.FileWriter;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -57,7 +56,7 @@ public class ItemCounterContainer extends Monads.CounterContainer {
      * initilizes a sort of the data contained inside of our data variable
      * */
     public void sortData() {
-        Collections.sort(data,(a, b) -> {return ((Item)a.element).getItemName().compareTo(((Item)b.element).getItemName());});
+        Collections.sort(data,(a, b) -> {return ((ProductSpecification)a.element).getItemName().compareTo(((ProductSpecification)b.element).getItemName());});
     }
 
     /**
@@ -84,7 +83,7 @@ public class ItemCounterContainer extends Monads.CounterContainer {
           fw = new FileWriter(f);
 
           for (int i = 0; i < data.size() ; i ++) {
-              fw.write(((Item)((ItemCounter)data.get(i)).element).to_csv_line() + "\n");
+              fw.write(((ProductSpecification)((ItemCounter)data.get(i)).element).to_csv_line() + "\n");
           }
 
           fw.close();
@@ -100,19 +99,19 @@ public class ItemCounterContainer extends Monads.CounterContainer {
      * */
     public ItemCounterContainer(java.io.File f) {
         dataFile = f;
-        Item [] item_list = Item.gen_item_list(f);
+        ProductSpecification[] productSpecification_list = ProductSpecification.gen_item_list(f);
 
         data = new ArrayList<Counter>();
 
         //encapsulate each of the items that we returned in a counter container
-        for (Item i : item_list) {
+        for (ProductSpecification i : productSpecification_list) {
             data.add(new ItemCounter(i));
         }
 
         if (doSort) {
             //sort the data array by name
             Collections.sort(data, (a, b) -> {
-                return ((Item) a.element).getItemName().compareTo(((Item) b.element).getItemName());
+                return ((ProductSpecification) a.element).getItemName().compareTo(((ProductSpecification) b.element).getItemName());
             });
         }
         /*
@@ -190,7 +189,7 @@ public class ItemCounterContainer extends Monads.CounterContainer {
      *
      * @param itemCode the item code of the counter that we want to remove
     * */
-    public  void remove(Item.ItemCode itemCode) {
+    public  void remove(ProductSpecification.ItemCode itemCode) {
         remove(itemCode.getValue());
     }
     /**
@@ -236,8 +235,8 @@ public class ItemCounterContainer extends Monads.CounterContainer {
      * @return the item code that the user typed
      * */
 
-    public Item.ItemCode askContainedItemCode() {
-        return askContainedItemCode("Enter Item Code:",Item.DEFAULT_FORMATING);
+    public ProductSpecification.ItemCode askContainedItemCode() {
+        return askContainedItemCode("Enter Item Code:", ProductSpecification.DEFAULT_FORMATING);
     }
 
     /**
@@ -249,8 +248,8 @@ public class ItemCounterContainer extends Monads.CounterContainer {
      * @return the item code that the user typed
      * */
 
-    public Item.ItemCode askContainedItemCode(String question) {
-        return askContainedItemCode(question,Item.DEFAULT_FORMATING);
+    public ProductSpecification.ItemCode askContainedItemCode(String question) {
+        return askContainedItemCode(question, ProductSpecification.DEFAULT_FORMATING);
     }
     /**
      * demands a valid item code from the user running the program
@@ -261,12 +260,12 @@ public class ItemCounterContainer extends Monads.CounterContainer {
      * @param formating the format string for that question
      * @return the item code that the user typed
      * */
-    public Item.ItemCode askContainedItemCode(String question, String formating) {
-        Item.ItemCode code = Item.ItemCode.askItemCode(question,formating);
+    public ProductSpecification.ItemCode askContainedItemCode(String question, String formating) {
+        ProductSpecification.ItemCode code = ProductSpecification.ItemCode.askItemCode(question,formating);
 
         while (!contains(code)) {
             System.out.printf(formating,"!!Item Code Does Not Exist\n");
-            code = Item.ItemCode.askItemCode(question,formating);
+            code = ProductSpecification.ItemCode.askItemCode(question,formating);
         }
 
         return code;
@@ -274,7 +273,7 @@ public class ItemCounterContainer extends Monads.CounterContainer {
     /** adds a new Item Counter to the container
      * @param i an item counter to add*/
     public void add(ItemCounter i) {
-        String itemCode = (((Item)i.element).getItemCodeString());
+        String itemCode = (((ProductSpecification)i.element).getItemCodeString());
         if (contains(itemCode)) { //actually increase the count if we find a match
             get_counter(itemCode).add(i);
         }
@@ -292,7 +291,7 @@ public class ItemCounterContainer extends Monads.CounterContainer {
      *
      * @param i item to add
      * */
-    public void add( Item i ) {
+    public void add( ProductSpecification i ) {
         ItemCounter to_add = new ItemCounter(i);
         data.add(to_add);
         if (doSort) {
@@ -306,10 +305,10 @@ public class ItemCounterContainer extends Monads.CounterContainer {
      *
      * */
     public String type_display_string() {
-        String ret_val = String.format(Item.DISPLAY_STRING_FORMAT + "\n","Item Code","Item Name","Unit Price");
+        String ret_val = String.format(ProductSpecification.DISPLAY_STRING_FORMAT + "\n","Item Code","Item Name","Unit Price");
         for (int i = 0; i < data.size(); i++) {
             ItemCounter ic = ((ItemCounter) data.get(i));
-            ret_val += ((Item)ic.element).display_string() + "\n";
+            ret_val += ((ProductSpecification)ic.element).display_string() + "\n";
         }
         return ret_val;
     }
@@ -320,7 +319,7 @@ public class ItemCounterContainer extends Monads.CounterContainer {
      * @param itemCode the item code object that we will test for
      * @return returns true if the container has a type of id inside it
      */
-    public boolean contains(Item.ItemCode itemCode) {
+    public boolean contains(ProductSpecification.ItemCode itemCode) {
         return contains(itemCode.getValue());
     }
 
@@ -334,7 +333,7 @@ public class ItemCounterContainer extends Monads.CounterContainer {
     public boolean contains(String id) {
         return  !java.util.Objects.isNull(
                     testMap(
-                        (i) -> {return ((Item)((ItemCounter)(i)).element).getItemCodeString().equals(id);},
+                        (i) -> {return ((ProductSpecification)((ItemCounter)(i)).element).getItemCodeString().equals(id);},
                         (j)->{ return true;} )
             );//if we return anything from our generic array search, then we are not null and we need to be true
     }
@@ -345,10 +344,10 @@ public class ItemCounterContainer extends Monads.CounterContainer {
      * */
     public void exceptionCheckItemCode(String id)
             throws ItemCodeNotInContainerException,
-            Item.ItemCode.MalformedItemCodeException {
+            ProductSpecification.ItemCode.MalformedItemCodeException {
 
         //throw the malformedItemCodeException if id is invalid
-        Item.ItemCode.malformedItemExceptionCheck(id);
+        ProductSpecification.ItemCode.malformedItemExceptionCheck(id);
 
         if (!contains(id)) {
             throw new ItemCodeNotInContainerException();
@@ -394,7 +393,7 @@ public class ItemCounterContainer extends Monads.CounterContainer {
     public  ItemCounter get_counter(String id){
         return (ItemCounter) testMap(
                 (i) -> {
-                    return ((Item) ((ItemCounter) (i)).element).getItemCodeString().equals(id);
+                    return ((ProductSpecification) ((ItemCounter) (i)).element).getItemCodeString().equals(id);
                 },
                 (k) -> {
                     return k;
@@ -408,10 +407,10 @@ public class ItemCounterContainer extends Monads.CounterContainer {
      * @param id the tyype id we are searching for
      * @return the item matching id, null otherwise
      */
-    public Item get_item(String id) {
-        return (Item) testMap(
+    public ProductSpecification get_item(String id) {
+        return (ProductSpecification) testMap(
                 (i) -> {
-                    return ((Item) ((ItemCounter) (i)).element).getItemCodeString().equals(id);
+                    return ((ProductSpecification) ((ItemCounter) (i)).element).getItemCodeString().equals(id);
                 },
                 (k) -> {
                     return ((ItemCounter)k).element;

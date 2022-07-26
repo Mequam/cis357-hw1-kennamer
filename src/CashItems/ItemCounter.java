@@ -1,7 +1,4 @@
 package CashItems;
-import Monads.*;
-
-import java.util.function.Predicate;
 
 /**
  * a convenient container class that ONLY contains items
@@ -12,7 +9,7 @@ public class ItemCounter extends Monads.Counter {
      *
      * @param e an item to count
      */
-    public ItemCounter(Item e) {
+    public ItemCounter(ProductSpecification e) {
         super(e);
     }
 
@@ -22,7 +19,7 @@ public class ItemCounter extends Monads.Counter {
      * @param e an item to count
      * @param x the count of that item
      */
-    public  ItemCounter(Item e, int x) {
+    public  ItemCounter(ProductSpecification e, int x) {
         super(e,x);
     }
 
@@ -32,7 +29,7 @@ public class ItemCounter extends Monads.Counter {
      * @return the unit price of the item multiplied by its count
      */
     public double cost() {
-        return count*((Item)element).getUnitPrice();
+        return count*((ProductSpecification)element).getUnitPrice();
     }
 
     /**
@@ -42,7 +39,7 @@ public class ItemCounter extends Monads.Counter {
      * @return if the item code does not start with B, return the total cost taxed, else the total cost
      * */
     public double dynamicCost() {
-        if (((Item)element).getTaxed()) {
+        if (((ProductSpecification)element).getTaxed()) {
             return taxedCost();
         }
         else {
@@ -56,7 +53,7 @@ public class ItemCounter extends Monads.Counter {
      * @return the total cost of the item with tax included
      * */
     public double taxedCost(double tax) {
-        return count*((Item)element).getUnitPrice()*(1+tax);
+        return count*((ProductSpecification)element).getUnitPrice()*(1+tax);
     }
 
     /**
@@ -66,7 +63,7 @@ public class ItemCounter extends Monads.Counter {
      * @param count the count of that item
      * @return the cost of count items
      * */
-    public static double cost(Item i,int count) {
+    public static double cost(ProductSpecification i, int count) {
         return i.getUnitPrice()*count;
     }
 
@@ -78,7 +75,7 @@ public class ItemCounter extends Monads.Counter {
      * @param tax the tax rate to be using
      * @return the cost of count items
      * */
-    public  static double dynamicCost(Item i,int count,double tax) {
+    public  static double dynamicCost(ProductSpecification i, int count, double tax) {
         if (i.getTaxed()) {
             return i.getUnitPrice() * count * (1 + tax);
         }

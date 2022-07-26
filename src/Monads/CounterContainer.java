@@ -1,9 +1,6 @@
 package Monads;
 
 
-import CashItems.Item;
-import CashItems.ItemCounter;
-
 import java.util.ArrayList;
 import java.util.function.Predicate;
 
