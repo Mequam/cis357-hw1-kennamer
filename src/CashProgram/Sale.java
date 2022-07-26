@@ -1,0 +1,117 @@
+package CashProgram;
+
+import CashItems.Item;
+import CashItems.ItemCounter;
+import CashItems.ItemCounterContainer;
+import Monads.Counter;
+import askUtils.AskUtils;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.util.ArrayList;
+import java.util.Collections;
+
+/**
+ * represents a single sale, contains functions to demand sale
+ * completion, store and add items
+ *
+ *
+ * */
+public class Sale extends ItemCounterContainer {
+
+    //this is the amount that the user has payed
+    double amount;
+    boolean isComplete;
+    /**
+     * default constructor
+     */
+    public Sale() {
+        super(0);
+    }
+
+    /**
+     * syntactic sugar rename of the item counter class for the
+     * Sale class, this is here so that the class name matches
+     * the assignment specification for SalesLineItem,
+     * <p>
+     * importantly ItemCounter matches ALL requirements of SalesLineItem,
+     * it just needed to be renamed to make the code match
+     */
+    class SalesLineItem extends ItemCounter {
+        public SalesLineItem(Item e) {
+            super(e);
+        }
+        public SalesLineItem(Item e, int count) {
+            super(e,count);
+        }
+    }
+
+    /**
+     * returns a new line item from the users specification
+     */
+    SalesLineItem makeLineItem(Item i,int count) {
+        return new SalesLineItem(i,count);
+    }
+
+
+    /**
+     * adds a line item to the container and displays the cost of that
+     * line item, formated out to the user for convinence
+     *
+     * */
+    void makeAndAddLineItemVerbose(Item id, int count) {
+
+        SalesLineItem si = makeLineItem(id,count);
+        System.out.println(String.format("%7s %-17s $ %.02f\n", "", "item total:", si.dynamicCost()));
+        add(si);
+    }
+
+    /**
+     * creates a new line item and adds it to the container
+     * */
+    void makeAndAddLineItem(Item id, int count) {
+        add(makeLineItem(id,count));
+    }
+    /**
+     * get the user to make a SINGLE payment, may or may not be valid
+     */
+    void makePayment(double amount) {
+        addAmount(amount);
+    }
+    /**
+     * goes straight to the user and asks them to supply payment
+     * for THIS sale, changing the prompt to match the sale state
+     * */
+    double promptPayment() {
+        AskUtils.say("Remaining Charge: ","%-26s"+String.format("$ %.02f",getChange()) + "\n");
+        String msg = "Payment: ";
+        if (amount > 0) {
+            msg = "Further Payment Required: ";
+        }
+        return HW2_kennamer.askDouble("Payment: ");
+    }
+
+    /**
+     *
+     * returns the change required for this sale
+     *
+     * */
+    double getChange() {
+        return Math.abs(taxedCost() - amount);
+    }
+    /**
+     * demand payment until we are fully paid
+     * */
+    void becomeComplete() {
+        while (!isComplete) {
+            makePayment(promptPayment());
+        }
+    }
+
+    void addAmount(double toAdd) {
+        amount += toAdd;
+        if (amount >= taxedCost()) {
+            isComplete = true;
+        }
+    }
+}

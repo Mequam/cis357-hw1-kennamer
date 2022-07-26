@@ -1,7 +1,11 @@
 package CashItems;
 
+import askUtils.AskUtils;
+
 import java.awt.*;
 import java.io.File;
+import java.io.FileWriter;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import java.util.regex.Matcher;
@@ -38,8 +42,9 @@ public class Item {
          *
          * @param ic Item code to test
          * */
-        public  boolean equals(ItemCode ic) {
-            return ic.value.equals(value);
+        @Override
+        public  boolean equals(Object ic) {
+            return ic instanceof ItemCode && ((ItemCode)ic).value.equals(value);
         }
         /**Custom exception that is called if a malformed item code string is given as an item code*/
         static public class MalformedItemCodeException extends IllegalArgumentException {
@@ -89,7 +94,7 @@ public class Item {
          *
          * @param s string to set our value to
          * */
-        ItemCode(String s) {
+        public ItemCode(String s) {
             //throw an exception if the given string is not valid
             malformedItemExceptionCheck(s);
 
@@ -97,11 +102,10 @@ public class Item {
             value = s;
         }
 
-
         /**
          * demands a valid item code formating from the user
          * */
-        static ItemCode askItemCode(String question,String formating) {
+        public static ItemCode askItemCode(String question,String formating) {
             Scanner inscan = new Scanner(System.in);
             System.out.print(String.format(formating,question));
             try {
@@ -142,6 +146,11 @@ public class Item {
         askName("Item Name:");
         askUnitPrice("Unit Price:");
     }
+    @Override
+    public boolean equals(Object i) {
+        return i instanceof Item && ((Item) i).getItemCode().equals(itemCode);
+    }
+
     /**
      * generates a new item variable
      *
@@ -215,6 +224,54 @@ public class Item {
         return lineCount;
     }
 
+
+    /**
+     * writes the list of types out to the disc as a csv file
+     * */
+    public static void save_list_csv(String f,ArrayList<Item> data) {
+        FileWriter fw;
+
+        try {
+            fw = new FileWriter(f);
+            for (int i = 0; i < data.size() ; i ++) {
+                fw.write(data.get(i).to_csv_line() + "\n");
+            }
+            fw.close();
+        }
+        catch (Exception e) {
+
+        }
+    }
+    /**
+     * returns a linked list containing items generated from a csv file
+     * */
+    public static ArrayList<Item> gen_item_linked_list(String f) {
+        return gen_item_linked_list(new File(f));
+    }
+
+    /**
+     * returns an array list (ll behind the scenes)
+     * containing the items in the given csv file
+     * */
+    public static ArrayList<Item> gen_item_linked_list(File f) {
+        try {
+            ArrayList<Item> ret_val = new ArrayList<Item>();
+
+            Scanner s = new Scanner(f);
+            int line = 0;
+            while (s.hasNextLine()) {
+                String data = s.nextLine();
+                //generate a new item from our csv line
+                ret_val.add(new Item(data));
+                line ++;
+            }
+            return ret_val;
+        }
+        catch (Exception e) {
+            return new ArrayList<Item>();
+        }
+    }
+
     /**
      * returns an array of items generated from the given csv file
      *
@@ -222,9 +279,7 @@ public class Item {
      * @return an array of items contained in the given file
      */
     public static Item[] gen_item_list(File f) {
-        /*
-            for the time bieng this is a debug list until this feature is ironed out
-        * */
+
         try {
             int lineCount = gen_item_entry_count(f);
 
@@ -245,16 +300,6 @@ public class Item {
         catch (Exception e) {
             return new Item[] {};
         }
-        /*
-        return new Item [] {
-                new Item(1,"bottled water",1.50),
-                new Item(1,"bottled water",1.50) ,
-                new Item(2,"candy",1.00),
-                new Item(3,"chocolate",2.50),
-                new Item(4,"gum",1.00)
-        };
-*/
-
     }
     /**
      * queries the user to give us a new item
@@ -365,26 +410,7 @@ public class Item {
      * @return a valid double typed by the user
      */
     public  static  double askDouble(String question, String angry_question,String formating,String angry_formating) {
-        Scanner inscan = new Scanner(System.in);
-
-        System.out.print(String.format(formating,question));
-
-        String a = inscan.nextLine();
-
-        boolean good_responce = false;
-
-        double ret_val = 0;
-        while (!good_responce) {
-            try {
-                ret_val = Double.parseDouble(a);
-                good_responce = true;
-            }
-            catch (Exception e) {
-                System.out.println(String.format(angry_formating,angry_question));
-                a = inscan.nextLine();
-            }
-        }
-        return ret_val;
+        return AskUtils.askDouble(question,angry_question,formating,angry_formating);
     }
 
     /**
@@ -404,7 +430,7 @@ public class Item {
     }
     //formating used for the display string
     /**default formating used when making a display string of ourselfs for the user*/
-    protected static final String  DISPLAY_STRING_FORMAT = "%-12s%-24s%-12s";
+    public static final String  DISPLAY_STRING_FORMAT = "%-12s%-24s%-12s";
 
     /**returns a string representation of the item formated for user display
      *

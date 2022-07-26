@@ -5,6 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="33edebda-7d84-4872-9ed3-38ed3600723e" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/CashProgram/ProductCatalog.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/CashProgram/Sale.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/askUtils/AskUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CashItems/Item.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/CashItems/Item.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CashItems/ItemCounterContainer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/CashItems/ItemCounterContainer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CashProgram/CashRegister.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/CashProgram/CashRegister.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CashProgram/HW2_kennamer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/CashProgram/HW2_kennamer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/items.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/items.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -41,6 +49,7 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/j0hn/ProgramingWorkshop/java/IdeaProjects/CashRegister&quot;,
     &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,

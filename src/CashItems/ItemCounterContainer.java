@@ -71,12 +71,14 @@ public class ItemCounterContainer extends Monads.CounterContainer {
     public void save() {
         save(dataFile);
     }
+
     /**
      * saves the types in the container out to the disk
      *
      * @param f the file that we save to
      * */
-    public  void save(java.io.File f) {
+    public void save(java.io.File f) {
+
         FileWriter fw;
         try {
           fw = new FileWriter(f);
@@ -90,7 +92,6 @@ public class ItemCounterContainer extends Monads.CounterContainer {
         catch (Exception e) {
 
         }
-
     }
 
     /**
@@ -132,7 +133,7 @@ public class ItemCounterContainer extends Monads.CounterContainer {
      *
      * @return the total cost of all objects in the container
      */
-    public  double totalCost() {
+    public double totalCost() {
         double ret_val = 0;
         for (int i = 0; i < data.size(); i++) {
             ret_val += ((ItemCounter)data.get(i)).cost();
@@ -272,10 +273,16 @@ public class ItemCounterContainer extends Monads.CounterContainer {
     }
     /** adds a new Item Counter to the container
      * @param i an item counter to add*/
-    public  void add(ItemCounter i) {
-        data.add((Counter) i);
-        if (doSort) {
-            sortData();
+    public void add(ItemCounter i) {
+        String itemCode = (((Item)i.element).getItemCodeString());
+        if (contains(itemCode)) { //actually increase the count if we find a match
+            get_counter(itemCode).add(i);
+        }
+        else {
+            data.add((Counter) i);
+            if (doSort) {
+                sortData();
+            }
         }
     }
 

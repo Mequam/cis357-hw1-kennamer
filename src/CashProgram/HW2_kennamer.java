@@ -206,31 +206,22 @@ public class HW2_kennamer {
      * asks the user for a product code, throws an exception if an invalid product code is given
      *
      *
-     * @param icc item counter container, used to determine what product codes are valid
+     * @param pc item container to test against
      * @return valid product code, or -1 indicating a terminating response
      */
-    public  static String productCodeCommand(ItemCounterContainer icc) {
+    public  static String productCodeCommand(ProductCatalog pc) {
         String id = ask("Enter Product Code:");
-        boolean run = !icc.contains(id);
+        boolean run = !pc.contains(id);
         while (run && !(id.equals( "-1") || id.equals( "0000"))) { //we run until we get a command input, or a valid id
 
-            //this try catch block works and is required for the assignment,
-            //but checking this would be SO much better if we just used booleans as
-            //return flags, that's basically what this is doing but in a round-about
-            //inefficient and clunky way with except. Still it is in the assignment requirements so we
-            //include it here
-
-            try {
-                icc.exceptionCheckItemCode(id);
-                run = false;
-                break;
-            } catch (Item.ItemCode.MalformedItemCodeException e) {
-                say("!!Invalid Data Type",PROGRAM_FORMATING + "\n\n");
-            } catch (ItemCounterContainer.ItemCodeNotInContainerException e) {
+            if (!Item.ItemCode.validItemCode(id)) {
+                say("!!Invalid Data Type", PROGRAM_FORMATING + "\n\n");
+            } else {
                 say("!!Invalid Item Code",PROGRAM_FORMATING + "\n\n");
             }
 
             id = ask("Enter Product Code:");
+            run = !pc.contains(id);
         }
         return id;
     }
@@ -254,22 +245,22 @@ public class HW2_kennamer {
      */
     public static void main(String[] args) {
         //initialize a new ItemCounterContainer that will hold the items the cash register accepts
-        ItemCounterContainer icc;
-        CashRegister cashreg = new CashRegister();
-
+        ProductCatalog productcat;
         if (args.length > 0) {
-            icc = new ItemCounterContainer(args[0]);
+            productcat = new ProductCatalog(args[0]);
         }
         else {
-            icc = new ItemCounterContainer(askFile("Item File: ","Item File: "));
+            productcat = new ProductCatalog(askFile("Item File: ","Item File: "));
         }
+
+        CashRegister cashreg = new CashRegister(productcat);
+
         System.out.println("Welcome to Kennamer cash register system!\n");
 
         Scanner inScan = new Scanner(System.in);
         boolean run = true;
+
         while (run) {
-            //ensure that we start with no data in the container
-            icc.zeroData();
             System.out.print(String.format("\n%-26s","Begin a new sale? (Y/N)"));
             String userInput = inScan.nextLine();
 
@@ -277,38 +268,42 @@ public class HW2_kennamer {
 
             if (userInput.toUpperCase().equals("Y")) {
                 //demand a valid product code
-                String productCode = productCodeCommand(icc);
+
+                cashreg.makeNewSale();
+
+                String productCode = productCodeCommand(productcat);
 
                 while (!productCode.equals("-1")) {
+                    //the user wants to display valid product codes
                     if (productCode.equals("0000")) {
-                        System.out.println("\n" + icc.type_display_string());
+                        System.out.println("\n" + productcat.type_display_string());
                     }
                     else {
+
+                        //we recived a valid product code
                         //print out to the screen in a nice formated way
                         System.out.print(String.format("%8s %-17s", "", "item name:"));
-                        say(icc.get_type_name(productCode), "%s\n");
+
+
+                        //this is well formated because we made it to this sle
+                        Item.ItemCode ic = new Item.ItemCode(productCode);
+
+                        say(productcat.get_type_name(ic), "%s\n");
+
                         int amount = askInt("Enter Quantity: ");
 
-                        //actually store the increase in amount
-                        ItemCounter c = icc.get_counter(productCode);
-
-                        c.count += amount;
-
-                        double itemTotal = ItemCounter.cost((Item)c.element,amount);
-
-                        System.out.println(String.format("%7s %-17s $ %.02f\n", "", "item total:", itemTotal));
-
+                        //actually add the item to the register
+                        cashreg.enterItemVerbose(ic,amount);
                     }
                     //demand a valid product code
-                    productCode = productCodeCommand(icc);
+                    productCode = productCodeCommand(productcat);
                 }
 
 
 
                 printSeperator();
 
-                //charge the user the cost of their items
-                cashreg.chargeCost(icc);
+                cashreg.endSale();
 
                 //we also want a new line before each run of the program
                 printSeperator();
@@ -321,44 +316,15 @@ public class HW2_kennamer {
 
         System.out.println("\nThe total sale for the day is $" + String.format("%.2f\n",cashreg.dailyTotal));
 
-        System.out.print("Do you want to update the item data? (A/D/M/Q): ");
-        String response = inScan.nextLine();
+        productcat.askUpdateData();
 
-        while (!response.toUpperCase().equals( "Q")) {
-
-            switch (response.toUpperCase()) {
-                case "A" -> {
-                    //create a new item using user inputs
-                    Item i = new Item();
-                    icc.add(i); // add it
-
-                    System.out.println("Item addition successful!\n");
-                }
-                case "D" -> {
-                    icc.remove(icc.askContainedItemCode());
-
-                    System.out.println("Item delete successful!\n");
-                }
-                case "M" -> {
-                    Item.ItemCode target = icc.askContainedItemCode(); // get an item code from the collection
-                    Item ni = new Item(target); //make an ew item with that code, asks the user for input
-                    icc.remove(ni.getItemCode()); //remove the existing item with the matching code
-
-                    icc.add(new ItemCounter(ni)); //add and sort the new item
-                    icc.sortData();
-
-                    System.out.println("Item modification successful!\n");
-                }
-            }
-
-            System.out.print("Do you want to update the item data? (A/D/M/Q): ");
-            response = inScan.nextLine();
-        }
         printSeperator();
-        System.out.println( "\n" + icc.type_display_string());
 
-        icc.save();
+        System.out.println( "\n" + productcat.type_display_string());
+
+        productcat.save();
 
         System.out.println("Thank you for using POS system. Goodbye!");
+
     }
 }
