@@ -20,7 +20,14 @@ public class CashRegister {
      */
     double dailyTotal = 0.0;
 
+    /**
+     * represents the current sale of the cash register
+     * this variable gets re-set whenever we make a new sale
+     * think of it like a storage place to put our sales
+     * while we wait for them to finish
+     * */
     Sale current_sale = null;
+
     /**
      * creates a new sale and adds it to the cash register
      * */

@@ -6,9 +6,52 @@
   <component name="ChangeListManager">
     <list default="true" id="33edebda-7d84-4872-9ed3-38ed3600723e" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CashItems/Item.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/CashItems/Item.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/javadoc/CashItems/Item.ItemCode.MalformedItemCodeException.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/javadoc/CashItems/Item.ItemCode.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/javadoc/CashItems/Item.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/javadoc/CashItems/ItemCounter.html" beforeDir="false" afterPath="$PROJECT_DIR$/javadoc/CashItems/ItemCounter.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/javadoc/CashItems/ItemCounterContainer.ItemCodeNotInContainerException.html" beforeDir="false" afterPath="$PROJECT_DIR$/javadoc/CashItems/ItemCounterContainer.ItemCodeNotInContainerException.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/javadoc/CashItems/ItemCounterContainer.html" beforeDir="false" afterPath="$PROJECT_DIR$/javadoc/CashItems/ItemCounterContainer.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/javadoc/CashItems/package-summary.html" beforeDir="false" afterPath="$PROJECT_DIR$/javadoc/CashItems/package-summary.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/javadoc/CashItems/package-tree.html" beforeDir="false" afterPath="$PROJECT_DIR$/javadoc/CashItems/package-tree.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/javadoc/CashProgram/CashRegister.html" beforeDir="false" afterPath="$PROJECT_DIR$/javadoc/CashProgram/CashRegister.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/javadoc/CashProgram/HW2_kennamer.html" beforeDir="false" afterPath="$PROJECT_DIR$/javadoc/CashProgram/HW2_kennamer.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/javadoc/CashProgram/package-summary.html" beforeDir="false" afterPath="$PROJECT_DIR$/javadoc/CashProgram/package-summary.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/javadoc/CashProgram/package-tree.html" beforeDir="false" afterPath="$PROJECT_DIR$/javadoc/CashProgram/package-tree.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/javadoc/Monads/Counter.html" beforeDir="false" afterPath="$PROJECT_DIR$/javadoc/Monads/Counter.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/javadoc/Monads/CounterContainer.html" beforeDir="false" afterPath="$PROJECT_DIR$/javadoc/Monads/CounterContainer.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/javadoc/Monads/ObjectMapInterface.html" beforeDir="false" afterPath="$PROJECT_DIR$/javadoc/Monads/ObjectMapInterface.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/javadoc/Monads/package-summary.html" beforeDir="false" afterPath="$PROJECT_DIR$/javadoc/Monads/package-summary.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/javadoc/Monads/package-tree.html" beforeDir="false" afterPath="$PROJECT_DIR$/javadoc/Monads/package-tree.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/javadoc/allclasses-index.html" beforeDir="false" afterPath="$PROJECT_DIR$/javadoc/allclasses-index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/javadoc/allpackages-index.html" beforeDir="false" afterPath="$PROJECT_DIR$/javadoc/allpackages-index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/javadoc/constant-values.html" beforeDir="false" afterPath="$PROJECT_DIR$/javadoc/constant-values.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/javadoc/element-list" beforeDir="false" afterPath="$PROJECT_DIR$/javadoc/element-list" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/javadoc/help-doc.html" beforeDir="false" afterPath="$PROJECT_DIR$/javadoc/help-doc.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/javadoc/index-files/index-1.html" beforeDir="false" afterPath="$PROJECT_DIR$/javadoc/index-files/index-1.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/javadoc/index-files/index-10.html" beforeDir="false" afterPath="$PROJECT_DIR$/javadoc/index-files/index-10.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/javadoc/index-files/index-11.html" beforeDir="false" afterPath="$PROJECT_DIR$/javadoc/index-files/index-11.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/javadoc/index-files/index-12.html" beforeDir="false" afterPath="$PROJECT_DIR$/javadoc/index-files/index-12.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/javadoc/index-files/index-13.html" beforeDir="false" afterPath="$PROJECT_DIR$/javadoc/index-files/index-13.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/javadoc/index-files/index-14.html" beforeDir="false" afterPath="$PROJECT_DIR$/javadoc/index-files/index-14.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/javadoc/index-files/index-15.html" beforeDir="false" afterPath="$PROJECT_DIR$/javadoc/index-files/index-15.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/javadoc/index-files/index-16.html" beforeDir="false" afterPath="$PROJECT_DIR$/javadoc/index-files/index-16.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/javadoc/index-files/index-2.html" beforeDir="false" afterPath="$PROJECT_DIR$/javadoc/index-files/index-2.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/javadoc/index-files/index-3.html" beforeDir="false" afterPath="$PROJECT_DIR$/javadoc/index-files/index-3.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/javadoc/index-files/index-4.html" beforeDir="false" afterPath="$PROJECT_DIR$/javadoc/index-files/index-4.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/javadoc/index-files/index-5.html" beforeDir="false" afterPath="$PROJECT_DIR$/javadoc/index-files/index-5.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/javadoc/index-files/index-6.html" beforeDir="false" afterPath="$PROJECT_DIR$/javadoc/index-files/index-6.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/javadoc/index-files/index-7.html" beforeDir="false" afterPath="$PROJECT_DIR$/javadoc/index-files/index-7.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/javadoc/index-files/index-8.html" beforeDir="false" afterPath="$PROJECT_DIR$/javadoc/index-files/index-8.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/javadoc/index-files/index-9.html" beforeDir="false" afterPath="$PROJECT_DIR$/javadoc/index-files/index-9.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/javadoc/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/javadoc/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/javadoc/member-search-index.js" beforeDir="false" afterPath="$PROJECT_DIR$/javadoc/member-search-index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/javadoc/overview-summary.html" beforeDir="false" afterPath="$PROJECT_DIR$/javadoc/overview-summary.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/javadoc/overview-tree.html" beforeDir="false" afterPath="$PROJECT_DIR$/javadoc/overview-tree.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/javadoc/package-search-index.js" beforeDir="false" afterPath="$PROJECT_DIR$/javadoc/package-search-index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/javadoc/serialized-form.html" beforeDir="false" afterPath="$PROJECT_DIR$/javadoc/serialized-form.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/javadoc/type-search-index.js" beforeDir="false" afterPath="$PROJECT_DIR$/javadoc/type-search-index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/CashProgram/CashRegister.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/CashProgram/CashRegister.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CashProgram/HW2_kennamer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/CashProgram/HW2_kennamer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/CashProgram/ProductCatalog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/CashProgram/ProductCatalog.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/CashProgram/Sale.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/CashProgram/Sale.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/items.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/items.txt" afterDir="false" />
@@ -51,7 +94,8 @@
     &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.keymap&quot;
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
   }
 }</component>
   <component name="RunManager">

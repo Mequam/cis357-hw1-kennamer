@@ -113,12 +113,22 @@ public class ProductCatalog {
             sortData();
         }
     }
+
+    /**
+     * runs the ProducCatalog(File f ) function with the file pointed
+     * to by
+     *
+     * @param f path to a csv file where the products are stored
+     * */
     public ProductCatalog(String f) {
         this(new File(f));
     }
 
     /**
     * returns the specification of the item with the given item id
+     *
+     * @param id ItemCode that must be within the container
+     * @return a ProductSpecification from within the container
     * */
     ProductSpecification getSpecification(ProductSpecification.ItemCode id) {
         for (ProductSpecification i : productSpecification_list) {
@@ -169,9 +179,16 @@ public class ProductCatalog {
         return askContainedItemCode("Enter Item Code:", ProductSpecification.DEFAULT_FORMATING);
     }
 
+    /**
+     * saves this container out to the file that was used to generate it
+     * */
     void save() {
         save(dataFile);
     }
+
+    /**
+     * saves this container out to the given file as a .csv file
+     * */
     void save(java.io.File f) {
 
         FileWriter fw;

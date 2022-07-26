@@ -13,8 +13,16 @@ import askUtils.AskUtils;
  * */
 public class Sale extends ItemCounterContainer {
 
-    //this is the amount that the user has payed
+    /**
+     * represents the total amount that the user has payed for this
+     * sale
+     * */
     double amount;
+    /**
+     * flag that indicates if the given sale is complete
+     * true if amount surpases totalCost
+     *
+     * */
     boolean isComplete;
     /**
      * default constructor
@@ -96,7 +104,7 @@ public class Sale extends ItemCounterContainer {
         if (amount > 0) {
             msg = "Further Payment Required: ";
         }
-        return HW2_kennamer.askDouble("Payment: ");
+        return HW2_kennamer.askDouble(msg);
     }
 
     /**
@@ -116,6 +124,11 @@ public class Sale extends ItemCounterContainer {
         }
     }
 
+    /**
+     * increase the amount payed by toAdd, runs additional hooks
+     * required when incrimenting amount
+     *
+     * */
     void addAmount(double toAdd) {
         amount += toAdd;
         if (amount >= taxedCost()) {
