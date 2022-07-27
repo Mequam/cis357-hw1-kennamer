@@ -78,7 +78,7 @@ public class Sale extends ItemCounterContainer {
     void makeAndAddLineItemVerbose(ProductSpecification id, int count) {
 
         SalesLineItem si = makeLineItem(id,count);
-        System.out.println(String.format("%7s %-17s $ %.02f\n", "", "item total:", si.dynamicCost()));
+        System.out.println(String.format("%7s %-17s $ %.02f\n", "", "item total:", si.cost()));
         add(si);
     }
 
@@ -99,9 +99,10 @@ public class Sale extends ItemCounterContainer {
      * for THIS sale, changing the prompt to match the sale state
      * */
     double promptPayment() {
-        AskUtils.say("Remaining Charge: ","%-26s"+String.format("$ %.02f",getChange()) + "\n");
+
         String msg = "Payment: ";
         if (amount > 0) {
+            AskUtils.say("Remaining Charge: ","%-26s"+String.format("$ %.02f",getChange()) + "\n");
             msg = "Further Payment Required: ";
         }
         return HW2_kennamer.askDouble(msg);

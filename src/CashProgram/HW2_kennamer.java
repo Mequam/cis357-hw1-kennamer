@@ -182,7 +182,7 @@ public class HW2_kennamer {
      * @return integer that the user typed
      */
     public  static int askInt(String question) {
-        return askInt(question,"!!Invalid Integer\n\n" + question);
+        return askInt(question,"!!Invalid Integer\n\n" + String.format(PROGRAM_FORMATING,question));
     }
 
     /**
@@ -213,10 +213,10 @@ public class HW2_kennamer {
         String id = ask("Enter Product Code:");
         while (!pc.contains(id) && !(id.equals( "-1"))) { //we run until we get a command input, or a valid id
             if (ProductSpecification.ItemCode.isControlCode(id)) {
-                /**
+                /*
                  * the control code indicates that we allways want to print to the screen
                  * */
-                System.out.println(pc.type_display_string());
+                System.out.println("\n"+pc.type_display_string());
             }
             else if (!ProductSpecification.ItemCode.validItemCode(id)) {
                 say("!!Invalid Data Type", PROGRAM_FORMATING + "\n\n");

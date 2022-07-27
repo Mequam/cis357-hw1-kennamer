@@ -32,7 +32,7 @@ public class CashRegister {
      * creates a new sale and adds it to the cash register
      * */
     void makeNewSale() {
-        if (current_sale != null) {
+        if (current_sale != null && !current_sale.isComplete) {
             endSale();
         }
         current_sale = new Sale();
@@ -64,6 +64,7 @@ public class CashRegister {
                     quantity);
         }
     }
+
     /**
      * ends the current sale
      * */

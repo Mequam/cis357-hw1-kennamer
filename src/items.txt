@@ -1,11 +1,10 @@
-F004,Obie,100.00
 A001,bottled water,1.50
 A002,candy,1.00
-A007,caramel,1.50
 A003,chocolate,2.50
-B002,donut,1.50
 A004,gum,1.00
+A005,soda,2.50
 A006,juice,3.00
 B001,popcorn,2.50
+B002,donut,1.50
 B003,pretzel,2.00
-A005,soda,2.50
+A007,caramel,1.50
