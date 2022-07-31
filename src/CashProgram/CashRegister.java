@@ -12,7 +12,7 @@ public class CashRegister {
     /**
      * generate a new register with a reference to a catalog
      * */
-    CashRegister(ProductCatalog pc) {
+    public CashRegister(ProductCatalog pc) {
         catalog_reference = pc;
     }
     /**
