@@ -211,7 +211,7 @@ public class ProductSpecification {
     /** used to get the display name of the item, convince function*/
     @Override
     public String toString() {
-        return getItemName();
+        return getItemCodeString();
     }
 
     /**

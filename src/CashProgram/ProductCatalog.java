@@ -6,6 +6,7 @@ import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
+import java.util.function.Consumer;
 
 /**
  * this class represents the loaded product catalog that we read from the disc
@@ -103,8 +104,28 @@ public class ProductCatalog {
         return ret_val;
     }
 
-    private static ArrayList<ProductSpecification> productSpecification_list;
+    public ArrayList<ProductSpecification> productSpecification_list;
+    public void forEach(Consumer<ProductSpecification> action) {
+        productSpecification_list.forEach(action);
+    }
 
+    public ArrayList<ProductSpecification> getListCopy() {
+        ArrayList<ProductSpecification> ret_val = new ArrayList<ProductSpecification>();
+
+        //copy over each value of the list
+        forEach((p)-> {
+            ret_val.add(p);
+        });
+        return ret_val;
+    }
+
+    public ArrayList<ProductSpecification.ItemCode> getItemCodeList() {
+        ArrayList<ProductSpecification.ItemCode> ret_val = new ArrayList<>();
+        productSpecification_list.forEach((i)->{
+            ret_val.add(i.getItemCode());
+        });
+        return ret_val;
+    }
     java.io.File dataFile;
     public ProductCatalog(File f) {
         dataFile = f;
@@ -130,7 +151,7 @@ public class ProductCatalog {
      * @param id ItemCode that must be within the container
      * @return a ProductSpecification from within the container
     * */
-    ProductSpecification getSpecification(ProductSpecification.ItemCode id) {
+    public ProductSpecification getSpecification(ProductSpecification.ItemCode id) {
         for (ProductSpecification i : productSpecification_list) {
             if (i.getItemCode().equals(id)) {
                 return i;
@@ -138,6 +159,10 @@ public class ProductCatalog {
         }
         //with any luck we should never get here
         return null;
+    }
+
+    public ProductSpecification getSpecification(String s) {
+        return getSpecification(new ProductSpecification.ItemCode(s));
     }
 
     /**
