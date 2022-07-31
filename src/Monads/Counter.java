@@ -1,4 +1,4 @@
-package Monads;
+package CashProgram.Monads;
 
 /**
  * This class is intended for counting quantities of programmatically defined data

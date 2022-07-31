@@ -1,4 +1,4 @@
-package askUtils;
+package CashProgram.askUtils;
 
 import java.util.Scanner;
 

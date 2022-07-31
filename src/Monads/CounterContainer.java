@@ -1,4 +1,4 @@
-package Monads;
+package CashProgram.Monads;
 
 
 import java.util.ArrayList;

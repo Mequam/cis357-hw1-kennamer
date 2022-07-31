@@ -1,9 +1,9 @@
-package CashProgram;
+package CashProgram.CashProgram;
 
-import CashItems.ProductSpecification;
-import CashItems.ItemCounter;
-import CashItems.ItemCounterContainer;
-import askUtils.AskUtils;
+import CashProgram.CashItems.ProductSpecification;
+import CashProgram.CashItems.ItemCounter;
+import CashProgram.CashItems.ItemCounterContainer;
+import CashProgram.askUtils.AskUtils;
 
 /**
  * represents a single sale, contains functions to demand sale

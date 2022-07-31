@@ -1,9 +1,9 @@
-package CashItems;
+package CashProgram.CashItems;
 
 /**
  * a convenient container class that ONLY contains items
  */
-public class ItemCounter extends Monads.Counter {
+public class ItemCounter extends CashProgram.Monads.Counter {
     /**
      * generates a new list of item counters
      *

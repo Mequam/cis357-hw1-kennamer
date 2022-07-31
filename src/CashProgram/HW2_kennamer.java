@@ -22,8 +22,8 @@
     Modifying item data: Y
 */
 
-package CashProgram;
-import CashItems.*;
+package CashProgram.CashProgram;
+import CashProgram.CashItems.*;
 
 import java.io.File;
 import java.util.Scanner;

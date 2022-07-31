@@ -1,5 +1,5 @@
-package CashProgram;
-import CashItems.*;
+package CashProgram.CashProgram;
+import CashProgram.CashItems.*;
 
 /**
  * The main class of the program,

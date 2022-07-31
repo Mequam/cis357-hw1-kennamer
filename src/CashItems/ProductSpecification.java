@@ -1,6 +1,6 @@
-package CashItems;
+package CashProgram.CashItems;
 
-import askUtils.AskUtils;
+import CashProgram.askUtils.AskUtils;
 
 import java.io.File;
 import java.io.FileWriter;

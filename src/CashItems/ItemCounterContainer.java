@@ -1,6 +1,5 @@
-package CashItems;
-
-import Monads.Counter;
+package CashProgram.CashItems;
+import CashProgram.Monads.Counter;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -13,7 +12,7 @@ import java.util.Collections;
  * the types input into it to be ItemCounters as apposed to generic
  * counters
  */
-public class ItemCounterContainer extends Monads.CounterContainer {
+public class ItemCounterContainer extends CashProgram.Monads.CounterContainer {
 
 
     /**

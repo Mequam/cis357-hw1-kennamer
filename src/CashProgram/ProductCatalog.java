@@ -1,5 +1,5 @@
-package CashProgram;
-import CashItems.ProductSpecification;
+package CashProgram.CashProgram;
+import CashProgram.CashItems.ProductSpecification;
 
 import java.io.File;
 import java.io.FileWriter;
