@@ -49,7 +49,7 @@ public class CashRegister {
      * puts a new item into the current sale
      *
      * */
-    void enterItem(ProductSpecification.ItemCode id, int quantity) {
+    public void enterItem(ProductSpecification.ItemCode id, int quantity) {
         if (current_sale != null) {
             current_sale.makeLineItem(new ProductSpecification(id),quantity);
         }
