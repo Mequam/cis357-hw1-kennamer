@@ -508,4 +508,18 @@ public class ProductSpecification {
     public double getUnitPrice() {
         return unitPrice;
     }
+    /**
+     * returns a string of the unit price formated to
+     * look nice
+     * */
+    public String getUnitPriceFormated() {
+        return formatPrice(getUnitPrice());
+    }
+
+    /**
+     * formats a price to look nice as a string
+     * */
+    public static String formatPrice(double price) {
+        return String.format("%.02f",price);
+    }
 }
