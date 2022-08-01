@@ -37,6 +37,7 @@ public class Counter {
     public Counter(Object e, int count) {
         this(e);
         this.count = count;
+        System.out.println("set count to " + count);
     }
 
     /* convenience functions */

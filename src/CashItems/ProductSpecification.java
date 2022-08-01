@@ -211,7 +211,7 @@ public class ProductSpecification {
     /** used to get the display name of the item, convince function*/
     @Override
     public String toString() {
-        return getItemCodeString();
+        return getItemName();
     }
 
     /**
@@ -474,6 +474,7 @@ public class ProductSpecification {
      * @return the item code as a string
      */
     public String getItemCodeString() {
+        System.out.println("ALIVE ITEM CODE STRING");
         return itemCode.value;
     }
     /**

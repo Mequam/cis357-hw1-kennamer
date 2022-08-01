@@ -50,6 +50,7 @@ public class Sale extends ItemCounterContainer {
         }
         public SalesLineItem(ProductSpecification e, int count) {
             super(e,count);
+            System.out.println("set element to "  + e);
         }
         /**
          * syntactic sugar function that reuturns the total cost of this sale
@@ -86,7 +87,12 @@ public class Sale extends ItemCounterContainer {
      * creates a new line item and adds it to the container
      * */
     void makeAndAddLineItem(ProductSpecification id, int count) {
-        add(makeLineItem(id,count));
+
+        SalesLineItem sl = makeLineItem(id,count);
+        System.out.println("alive");
+        System.out.print(sl);
+        add(sl);
+        System.out.println("alive");
     }
     /**
      * get the user to make a SINGLE payment, may or may not be valid

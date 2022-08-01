@@ -172,7 +172,6 @@ public class ItemCounterContainer extends CashProgram.Monads.CounterContainer {
         for (int i = 0; i < data.size(); i++) {
             //cache a reference to the data for convenience
             ItemCounter ic = (ItemCounter) data.get(i);
-
             if (ic.count != 0) {
                 ret_val += String.format("   %-23s$ %.2f\n", ic.toString(), ic.cost());
             }
@@ -272,11 +271,13 @@ public class ItemCounterContainer extends CashProgram.Monads.CounterContainer {
     /** adds a new Item Counter to the container
      * @param i an item counter to add*/
     public void add(ItemCounter i) {
+        System.out.println("insie of function and alive");
         String itemCode = (((ProductSpecification)i.element).getItemCodeString());
         if (contains(itemCode)) { //actually increase the count if we find a match
             get_counter(itemCode).add(i);
         }
         else {
+            System.out.println("Adding counter i");
             data.add((Counter) i);
             if (doSort) {
                 sortData();

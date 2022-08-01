@@ -160,6 +160,7 @@ public class HW2_kennamer {
      * @return a valid integer
      */
     public static int askInt(String question,String angry_question) {
+        System.out.println("Ending ic.toString()");
         String a = ask(question);
         boolean good_responce = false;
         int ret_val = 0;

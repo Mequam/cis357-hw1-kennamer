@@ -9,6 +9,35 @@ public class CashRegister {
     /**reference to the catalog that this register will look into*/
     private ProductCatalog catalog_reference;
 
+    public String getCurrentSaleDisplayString() {
+        if (current_sale != null) {
+            return current_sale.toString();
+        }
+        return "";
+    }
+    /**
+     * gets the subTotal of the cash register
+     * */
+    public double getSubTotal() {
+        return current_sale.totalCost();
+    }
+    /**
+     * returns the total taxed cost of the curent sale
+     * */
+    public double getTaxedTotal() {
+        return current_sale.taxedCost();
+    }
+    /**
+     * returns the remaining cost on the current sale
+     * */
+    public double getUnpaidCost() {
+        double ret_val = getTaxedTotal() - current_sale.amount;
+        if (ret_val < 0)
+            return 0;
+        return ret_val;
+
+    }
+
     /**
      * generate a new register with a reference to a catalog
      * */
@@ -31,7 +60,7 @@ public class CashRegister {
     /**
      * creates a new sale and adds it to the cash register
      * */
-    void makeNewSale() {
+    public void makeNewSale() {
         if (current_sale != null && !current_sale.isComplete) {
             endSale();
         }
@@ -41,7 +70,7 @@ public class CashRegister {
     /**
      * syntactic sugar function that passes the amount to pay to the current_sale
      * */
-    void makePayment(double amount) {
+    public void makePayment(double amount) {
         current_sale.makePayment(amount);
     }
     /**
@@ -51,7 +80,8 @@ public class CashRegister {
      * */
     public void enterItem(ProductSpecification.ItemCode id, int quantity) {
         if (current_sale != null) {
-            current_sale.makeLineItem(new ProductSpecification(id),quantity);
+            System.out.println("ADDING ITEM!");
+            current_sale.makeAndAddLineItem(catalog_reference.getSpecification(id),quantity);
         }
     }
     /**
@@ -64,7 +94,16 @@ public class CashRegister {
                     quantity);
         }
     }
-
+    public boolean getCurrentSaleComplete() {
+        if (current_sale == null)
+            return false;
+        return current_sale.isComplete;
+    }
+    public double getCurrentSaleChange() {
+        if (current_sale == null)
+            return 0;
+        return Math.abs(current_sale.taxedCost() - current_sale.amount);
+    }
     /**
      * ends the current sale
      * */
