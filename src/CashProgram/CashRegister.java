@@ -47,7 +47,7 @@ public class CashRegister {
     /**
        the daily total for this CashRegister
      */
-    double dailyTotal = 0.0;
+    public double dailyTotal = 0.0;
 
     /**
      * represents the current sale of the cash register
@@ -107,19 +107,23 @@ public class CashRegister {
     /**
      * ends the current sale
      * */
-    void endSale() {
+    public void endSale() {
         //we do NOTHING if the sale is null
         if (current_sale != null) {
-
-            System.out.println(current_sale);
             //since the dailyTotal is OUR profits,
             //we use the sale function which does NOT include tax
             //becomeComplete does nothing if the current sale is already complete
             current_sale.becomeComplete();
-            System.out.printf("%-26s$ %.02f\n","Change:",
-                                Math.abs(current_sale.taxedCost() - current_sale.amount)
-                            );
             dailyTotal += current_sale.totalCost(); //make sure to save the cost of the current sale
         }
+
     }
+    void endSaleVerbose() {
+        System.out.println(current_sale);
+        System.out.printf("%-26s$ %.02f\n","Change:",
+                Math.abs(current_sale.taxedCost() - current_sale.amount)
+        );
+
+    }
+
 }
