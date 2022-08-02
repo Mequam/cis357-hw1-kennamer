@@ -3,6 +3,8 @@ import CashProgram.CashItems.ProductSpecification;
 
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
+import java.io.RandomAccessFile;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
@@ -146,6 +148,18 @@ public class ProductCatalog {
     }
 
     /**
+     * generates a new ProductCatalog given a random access file
+     * to read and write from
+     *
+     * */
+    public ProductCatalog(RandomAccessFile raf) throws IOException{
+        productSpecification_list = ProductSpecification.gen_item_linked_list(raf);
+        if (this.doSort) {
+            sortData();
+        }
+    }
+
+    /**
     * returns the specification of the item with the given item id
      *
      * @param id ItemCode that must be within the container
@@ -207,14 +221,23 @@ public class ProductCatalog {
     /**
      * saves this container out to the file that was used to generate it
      * */
-    void save() {
+    public void save() {
         save(dataFile);
+    }
+
+    /**
+     * saves this class out to the given random access file
+     * */
+    public void save(RandomAccessFile f) throws IOException {
+        for (ProductSpecification ps : productSpecification_list) {
+            f.write(ps.encode());
+        }
     }
 
     /**
      * saves this container out to the given file as a .csv file
      * */
-    void save(java.io.File f) {
+    public void save(java.io.File f) {
 
         FileWriter fw;
         try {

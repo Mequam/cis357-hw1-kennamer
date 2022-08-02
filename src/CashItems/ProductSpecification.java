@@ -361,11 +361,46 @@ public class ProductSpecification {
         decodeName(data);
     }
 
-    /*
-    public static ArrayList<ProductSpecification> gen_item_linked_list_bin(RandomAccessFile f) {
-
+    public ProductSpecification(RandomAccessFile raf) throws IOException{
+        this(readItemBytes(raf));
     }
-*/
+
+    /**
+     * reads the bytes of an item in from a random access file and returns them
+     * */
+    public static byte [] readItemBytes(RandomAccessFile raf) throws IOException {
+        //stores the first half of an item entry
+        byte[] initial = new byte[ItemCode.encoding_size + Double.BYTES];
+        raf.read(initial);
+
+        byte[] len = new byte[1];
+        raf.read(len);
+
+        byte[] name = new byte[Byte.toUnsignedInt(len[0])];
+        raf.read(name);
+
+        byte[] ret_val = new byte[initial.length + len.length + name.length];
+        //copy over the inital data
+        for (int i = 0; i < initial.length;i++) {
+            ret_val [i] = initial[i];
+        }
+        //store the length of the name in our bytes
+        ret_val[initial.length] = len[0];
+        //copy over the name into our bytes
+        for (int i = 0; i < len[0];i++) {
+            ret_val[i+initial.length+1] = name[i];
+        }
+
+        return ret_val;
+    }
+    public static ArrayList<ProductSpecification> gen_item_linked_list(RandomAccessFile f) throws IOException {
+        ArrayList<ProductSpecification> ret_val = new ArrayList<ProductSpecification>();
+        while (f.getFilePointer() != f.length()) {
+            ret_val.add(new ProductSpecification(f));
+        }
+        return ret_val;
+    }
+
     /**
      * returns an array list (ll behind the scenes)
      * containing the items in the given csv file
