@@ -2,8 +2,10 @@ package CashProgram.CashItems;
 
 import CashProgram.askUtils.AskUtils;
 
-import java.io.File;
-import java.io.FileWriter;
+import java.io.*;
+import java.nio.ByteBuffer;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -28,7 +30,16 @@ public class ProductSpecification {
      * contains several convenience functions for working with strings in the desired format
      * */
     static public class ItemCode {
+        public static final Charset encoding = StandardCharsets.US_ASCII;
+        public static final int encoding_size = 4;
+        public byte [] encode() {
 
+            return value.getBytes(encoding);
+        }
+
+        public ItemCode(byte [] data) {
+            this(new String(data,encoding));
+        }
         /**
          * @return is this an item code that we need to tax?
          * */
@@ -261,6 +272,101 @@ public class ProductSpecification {
     }
 
     /**
+     * returns the number of bytes in a full binary encoding of this productSpecification
+     * */
+    int encodingSize() {
+        return ItemCode.encoding_size + 8 + getItemName().length() + 1;
+    }
+
+    private byte[] encodeName() {
+        byte[] itemNameBytes = itemName.getBytes(ItemCode.encoding);
+        byte [] ret_val = new byte[itemNameBytes.length + 1];
+        for (int i = 0; i < itemNameBytes.length;i++) {
+            ret_val[i+1] = itemNameBytes[i];
+        }
+        ret_val[0] = (byte) itemNameBytes.length;
+        return ret_val;
+    }
+
+    /**
+     * sets the item name from a give entry of full data
+     * */
+    private void decodeName(byte [] full_data) {
+        byte[] buffer = new byte[
+                Byte.toUnsignedInt(full_data[ItemCode.encoding_size + Double.BYTES])
+                ];
+        for (int i = 0; i < buffer.length;i++) {
+            buffer[i] = full_data[i+ItemCode.encoding_size+Double.BYTES+1];
+        }
+        itemName = new String(buffer,ItemCode.encoding);
+    }
+    /**
+     * returns bytes representing the raw encoding of this ProductSpec
+     *
+     *
+     * encoding format is in the form
+     * item ID / Unit Price / name where name is null ended
+     * see item ID.encode for more information on encoding the item IDs
+     * */
+    public byte[] encode() throws IOException{
+        byte [] ret_val = new byte[encodingSize()];
+
+        byte [] item_code = getItemCode().encode();
+        byte [] d_arr = unitPriceToByteArray();
+
+        for (int i = 0; i < item_code.length;i++) {
+            ret_val[i] = item_code[i];
+        }
+        for (int i = item_code.length; i < d_arr.length;i++) {
+            ret_val[i] = d_arr[i-item_code.length];
+        }
+
+        byte [] nameData = encodeName();
+
+        for (int i = 0; i < nameData.length;i++) {
+         ret_val[i + d_arr.length + item_code.length] = nameData[i];
+        }
+
+        for (byte b: ret_val) {
+            System.out.println((char)b);
+        }
+        return ret_val;
+    }
+
+    private byte[] unitPriceToByteArray() throws IOException {
+        ByteBuffer bb = ByteBuffer.allocate(Double.BYTES);
+        bb.putDouble(unitPrice);
+        return bb.array();
+    }
+    /**
+     * sets the item code from a given entry of full data
+     * */
+    private void decodeItemCode(byte [] fullData) {
+        byte[] ic = new byte[ItemCode.encoding_size];
+        for (int i = 0; i < ItemCode.encoding_size;i++) {
+            ic[i] = fullData[i];
+        }
+        itemCode = new ItemCode(ic);
+    }
+    private void decodeUnitPrice(byte [] fullData) {
+        byte [] unitPriceArr = new byte[Double.BYTES];
+        for (int i = ItemCode.encoding_size; i < Double.BYTES+ItemCode.encoding_size;i++) {
+            unitPriceArr[i-ItemCode.encoding_size] = fullData[i];
+        }
+        unitPrice = ByteBuffer.wrap(unitPriceArr).getDouble();
+    }
+    public ProductSpecification(byte[] data) {
+        decodeItemCode(data);
+        decodeUnitPrice(data);
+        decodeName(data);
+    }
+
+    /*
+    public static ArrayList<ProductSpecification> gen_item_linked_list_bin(RandomAccessFile f) {
+
+    }
+*/
+    /**
      * returns an array list (ll behind the scenes)
      * containing the items in the given csv file
      * */
@@ -474,7 +580,6 @@ public class ProductSpecification {
      * @return the item code as a string
      */
     public String getItemCodeString() {
-        System.out.println("ALIVE ITEM CODE STRING");
         return itemCode.value;
     }
     /**
