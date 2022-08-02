@@ -51,6 +51,24 @@ public class ProductCatalog {
     }
 
     /**
+     * assumes the full product specification is given
+     * and updates the existing items to match it
+     * */
+    public void modify(ProductSpecification ps) {
+        if (contains(ps.getItemCode())) {
+            remove(ps.getItemCode());
+            add(ps);
+            sortData();
+        }
+    }
+    /**
+     * updates the existing prodcuct specification of the given target
+     * with user givein CLI input
+     * */
+    public void modify(ProductSpecification.ItemCode target) {
+        modify(new ProductSpecification(target));
+    }
+    /**
      * prompts the user to update the data contained within the item container
      *
      * */
@@ -77,12 +95,7 @@ public class ProductCatalog {
                 }
                 case "M" -> {
                     ProductSpecification.ItemCode target = askContainedItemCode(); // get an item code from the collection
-                    ProductSpecification ni = new ProductSpecification(target); //make an ew item with that code, asks the user for input
-                    remove(ni.getItemCode()); //remove the existing item with the matching code
-
-                    add(ni); //add and sort the new item
-                    sortData();
-
+                    modify(target);
                     System.out.println("Item modification successful!\n");
                 }
             }
@@ -229,6 +242,8 @@ public class ProductCatalog {
      * saves this class out to the given random access file
      * */
     public void save(RandomAccessFile f) throws IOException {
+        f.setLength(0);
+        f.seek(0);
         for (ProductSpecification ps : productSpecification_list) {
             f.write(ps.encode());
         }
