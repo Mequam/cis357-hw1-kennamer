@@ -30,6 +30,11 @@ public class ProductSpecification {
      * contains several convenience functions for working with strings in the desired format
      * */
     static public class ItemCode {
+        /**Custom exception that is called if a malformed item code string is given as an item code*/
+        static public class MalformedItemCodeException extends IllegalArgumentException {
+
+        }
+
         public static final Charset encoding = StandardCharsets.US_ASCII;
         public static final int encoding_size = 4;
         public byte [] encode() {
@@ -37,7 +42,7 @@ public class ProductSpecification {
             return value.getBytes(encoding);
         }
 
-        public ItemCode(byte [] data) {
+        public ItemCode(byte [] data) throws MalformedItemCodeException {
             this(new String(data,encoding));
         }
         /**
@@ -55,10 +60,6 @@ public class ProductSpecification {
         @Override
         public  boolean equals(Object ic) {
             return ic instanceof ItemCode && ((ItemCode)ic).value.equals(value);
-        }
-        /**Custom exception that is called if a malformed item code string is given as an item code*/
-        static public class MalformedItemCodeException extends IllegalArgumentException {
-
         }
 
         /**
@@ -305,7 +306,7 @@ public class ProductSpecification {
      *
      *
      * encoding format is in the form
-     * item ID / Unit Price / name where name is null ended
+     * item ID / Unit Price / name where the length of the name is determined by a preciding byte
      * see item ID.encode for more information on encoding the item IDs
      * */
     public byte[] encode() throws IOException{
