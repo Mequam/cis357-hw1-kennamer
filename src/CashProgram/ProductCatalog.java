@@ -238,6 +238,13 @@ public class ProductCatalog {
         save(dataFile);
     }
 
+
+    /**
+     * only inherited classes can have no arguments when they create us
+     * */
+    protected ProductCatalog() {
+
+    }
     /**
      * saves this class out to the given random access file
      * */
