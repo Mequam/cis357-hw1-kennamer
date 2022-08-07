@@ -275,8 +275,22 @@ public class ProductSpecification {
     /**
      * returns the number of bytes in a full binary encoding of this productSpecification
      * */
-    int encodingSize() {
-        return ItemCode.encoding_size + 8 + getItemName().length() + 1;
+    public int encodingSize() {
+        return ItemCode.encoding_size + //item code encoding size
+                8 + //double encoding size in java
+                getItemName().length() + //the length of our item name
+                1; // extra bit for indicating name length
+    }
+
+    /**
+     * returns the theoreticall max bytes required to encode an item
+     */
+    public static int maxEncodingSize() {
+
+        return ItemCode.encoding_size //item code length
+                + 8 //double length
+                + 1 //name length indicator
+                + 255; //max unsigned int value given by the indicator
     }
 
     private byte[] encodeName() {
@@ -293,13 +307,20 @@ public class ProductSpecification {
      * sets the item name from a give entry of full data
      * */
     private void decodeName(byte [] full_data) {
+        itemName = decode_name(full_data);
+    }
+
+    /**
+     * gets an item name from an encoded item packet
+     * */
+    public static String decode_name(byte [] full_data) {
         byte[] buffer = new byte[
                 Byte.toUnsignedInt(full_data[ItemCode.encoding_size + Double.BYTES])
                 ];
         for (int i = 0; i < buffer.length;i++) {
             buffer[i] = full_data[i+ItemCode.encoding_size+Double.BYTES+1];
         }
-        itemName = new String(buffer,ItemCode.encoding);
+        return new String(buffer,ItemCode.encoding);
     }
     /**
      * returns bytes representing the raw encoding of this ProductSpec
@@ -343,18 +364,31 @@ public class ProductSpecification {
      * sets the item code from a given entry of full data
      * */
     private void decodeItemCode(byte [] fullData) {
+        itemCode = decode_item_code(fullData);
+    }
+    public static ItemCode decode_item_code(byte [] fullData) {
         byte[] ic = new byte[ItemCode.encoding_size];
         for (int i = 0; i < ItemCode.encoding_size;i++) {
             ic[i] = fullData[i];
         }
-        itemCode = new ItemCode(ic);
+        return new ItemCode(ic);
     }
+
+    /**
+     * sets the unitPrice to be equal to the given encoded unit price
+     * */
     private void decodeUnitPrice(byte [] fullData) {
+        unitPrice = decode_unit_price(fullData);
+    }
+    /**
+     * gets a double given from an encoded item specification
+     * */
+    public static double decode_unit_price(byte [] fullData) {
         byte [] unitPriceArr = new byte[Double.BYTES];
         for (int i = ItemCode.encoding_size; i < Double.BYTES+ItemCode.encoding_size;i++) {
             unitPriceArr[i-ItemCode.encoding_size] = fullData[i];
         }
-        unitPrice = ByteBuffer.wrap(unitPriceArr).getDouble();
+        return ByteBuffer.wrap(unitPriceArr).getDouble();
     }
     public ProductSpecification(byte[] data) {
         decodeItemCode(data);
