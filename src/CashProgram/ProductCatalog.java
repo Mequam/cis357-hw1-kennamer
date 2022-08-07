@@ -119,7 +119,10 @@ public class ProductCatalog {
         return ret_val;
     }
 
-    public ArrayList<ProductSpecification> productSpecification_list;
+    private ArrayList<ProductSpecification> productSpecification_list;
+    public ArrayList<ProductSpecification> get_specification_list() {
+        return productSpecification_list;
+    }
     public void forEach(Consumer<ProductSpecification> action) {
         productSpecification_list.forEach(action);
     }
