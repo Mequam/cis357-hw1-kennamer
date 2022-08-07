@@ -78,7 +78,7 @@ public class ProductSpecProtocal {
      * (probably) safely reads in the product specification bytes from the given input stream
      * this assumes we will be receiving an UPDATE packet containing the item code
      * */
-    public byte[] read_specification_bytes(InputStream is) throws IOException {
+    public static byte[] read_specification_bytes(InputStream is) throws IOException {
         byte[] ret_val = new byte[ProductSpecification.maxEncodingSize()];
 
         //read in the header
