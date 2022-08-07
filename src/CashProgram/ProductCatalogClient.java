@@ -1,12 +1,10 @@
 package CashProgram.CashProgram;
 
 import CashProgram.CashItems.ProductSpecification;
-import NetUtils.ProductSpecProtocal;
+import CashProgram.NetUtils.ProductSpecProtocal;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.InetSocketAddress;
 import java.net.Socket;
 
 /**
