@@ -32,7 +32,7 @@ public class ProductCatalogClient extends ProductCatalog {
             InputStream is = server.getInputStream();
             if (is.read() != ProductSpecProtocal.COMMANDS.SPEC_NOT_FOUND.ordinal()) {
                 return new ProductSpecification(
-                        ProductSpecProtocal.readItemCode(is)
+                        ProductSpecProtocal.read_specification_bytes(is)
                 );
             }
             System.out.println("ITEM CODE NOT FOUND");
