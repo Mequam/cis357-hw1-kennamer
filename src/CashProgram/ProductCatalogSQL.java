@@ -50,8 +50,8 @@ public class ProductCatalogSQL extends ProductCatalog {
 
     @Override
     public ProductSpecification getSpecification(ProductSpecification.ItemCode id) {
-        System.out.println(id.getValue());
-        System.out.println("SELECT * FROM item WHERE item_id='"+id.getValue() + "'");
+        //System.out.println(id.getValue());
+        //System.out.println("SELECT * FROM item WHERE item_id='"+id.getValue() + "'");
 
         if (contains(id)) {
             try {
@@ -60,8 +60,8 @@ public class ProductCatalogSQL extends ProductCatalog {
                 //mostly trust the incoming string value fed right into sql
                 //try to break it I dare you :p
 
-                System.out.println(id.getValue());
-                System.out.println("SELECT * FROM item WHERE item_id='"+id.getValue() + "'");
+                //System.out.println(id.getValue());
+                //System.out.println("SELECT * FROM item WHERE item_id='"+id.getValue() + "'");
                 ResultSet rs = s.executeQuery("SELECT * FROM item WHERE item_code='"+id.getValue() + "'");
 
                 rs.next();
