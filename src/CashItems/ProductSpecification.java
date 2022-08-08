@@ -76,6 +76,10 @@ public class ProductSpecification {
             return value;
         }
 
+        @Override
+        public String toString() {
+            return getValue();
+        }
 
         /**
          * determines if the given string is a valid item code

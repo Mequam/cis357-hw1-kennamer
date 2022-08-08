@@ -23,7 +23,9 @@ public class ProductSpecProtocal {
         UPDATE,
         DELETE,
         NOOP, //indicates no operation, used as an error code
-        SPEC_NOT_FOUND //indicates that the given specification is not located
+        SPEC_NOT_FOUND, //indicates that the given specification is not located
+        GET_ALL_ITEM_CODES, //requests a list of all item codes stored in the database
+        ITEM_CODE //indicates the following packet represents an item code
     }
     /**
      * since COMMANDS.values() generates a new array on every call,
@@ -40,6 +42,18 @@ public class ProductSpecProtocal {
     public static byte [] gen_item_not_found_alert() {
         return new byte[] {(byte) COMMANDS.SPEC_NOT_FOUND.ordinal()};
     }
+
+    /**
+     * generates a new network item code packet
+     * */
+    public static byte [] gen_item_code_packet(ProductSpecification.ItemCode ic) {
+        return tag_bytes(COMMANDS.ITEM_CODE, ic.encode());
+    }
+
+    public ProductSpecification.ItemCode get_item_code_from_item_code_packet(byte [] itemCodePacket) {
+       return new ProductSpecification.ItemCode(slice_bytes(itemCodePacket,1));
+    }
+
     /**
      * generates a packet indicating the product specification
      * was located and the specification of the product

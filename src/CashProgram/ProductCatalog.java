@@ -120,11 +120,17 @@ public class ProductCatalog {
     }
 
     private ArrayList<ProductSpecification> productSpecification_list;
+    /**
+     * getter for the specification list
+     * */
     public ArrayList<ProductSpecification> get_specification_list() {
         return productSpecification_list;
     }
+    /**
+     * iterates over the specification list and runs the given code
+     * */
     public void forEach(Consumer<ProductSpecification> action) {
-        productSpecification_list.forEach(action);
+        get_specification_list().forEach(action);
     }
 
     public ArrayList<ProductSpecification> getListCopy() {
@@ -302,5 +308,14 @@ public class ProductCatalog {
 
         return code;
     }
-
+    /**
+     * returns a valid list of item codes
+     * */
+    public ArrayList<ProductSpecification.ItemCode> get_valid_item_code() throws IOException {
+        ArrayList<ProductSpecification.ItemCode> ret_val = new ArrayList<>();
+        forEach((i)->{
+           ret_val.add(i.getItemCode());
+        });
+        return ret_val;
+    }
 }

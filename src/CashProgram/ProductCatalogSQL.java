@@ -47,7 +47,37 @@ public class ProductCatalogSQL extends ProductCatalog {
         return ret_val;
     }
 
+    @Override
+    public ArrayList<ProductSpecification> get_specification_list() {
+        ArrayList<ProductSpecification> ret_val = new ArrayList<>();
+        try {
+            Statement s = sqlCon.createStatement();
+            ResultSet rs = s.executeQuery("SELECT * FROM item;");
 
+            while (rs.next()) {
+                ret_val.add(spec_from_rs(rs));
+            }
+        }
+        catch (Exception e) {
+            System.out.println(e);
+        }
+
+        return ret_val;
+    }
+
+    private ProductSpecification spec_from_rs(ResultSet rs) {
+        try {
+            return new ProductSpecification(
+                    rs.getString("item_code"),
+                    rs.getString("item_name"),
+                    rs.getDouble("unit_price")
+            );
+        }
+        catch (Exception e) {
+            System.out.println(e);
+            return null;
+        }
+    }
     @Override
     public ProductSpecification getSpecification(ProductSpecification.ItemCode id) {
         //System.out.println(id.getValue());
@@ -66,12 +96,7 @@ public class ProductCatalogSQL extends ProductCatalog {
 
                 rs.next();
                 //since we contain this item code, there WILL be values there
-                return new ProductSpecification(
-                        rs.getString("item_code"),
-                        rs.getString("item_name"),
-                        rs.getDouble("unit_price")
-                );
-
+                return spec_from_rs(rs);
 
             } catch (Exception e) {
                 System.out.println(e);
