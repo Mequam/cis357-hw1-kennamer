@@ -353,9 +353,6 @@ public class ProductSpecification {
          ret_val[i + d_arr.length + item_code.length] = nameData[i];
         }
 
-        for (byte b: ret_val) {
-            System.out.println((char)b);
-        }
         return ret_val;
     }
 
