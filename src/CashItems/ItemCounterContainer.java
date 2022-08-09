@@ -26,13 +26,6 @@ public class ItemCounterContainer extends CashProgram.Monads.CounterContainer {
 
     }
 
-
-
-    /*
-     * java appears to have very ugly higher order functions
-     * which makes since as its an oop language
-     * */
-
     /**
      * generate an empty ItemCounterContainer with size memory slots
      *

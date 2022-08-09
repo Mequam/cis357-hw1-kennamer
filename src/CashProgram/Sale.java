@@ -44,7 +44,7 @@ public class Sale extends ItemCounterContainer {
      * importantly ItemCounter matches ALL requirements of SalesLineItem,
      * it just needed to be renamed to make the code match
      */
-    class SalesLineItem extends ItemCounter {
+    public class SalesLineItem extends ItemCounter {
         public SalesLineItem(ProductSpecification e) {
             super(e);
         }
@@ -141,5 +141,12 @@ public class Sale extends ItemCounterContainer {
         if (amount >= taxedCost()) {
             isComplete = true;
         }
+    }
+
+    public String get_transaction_string() {
+        return toString() +
+                "\n--------------------------------\n" +
+                String.format("%-26s$ %.02f\n","Tendered Amount",amount) +
+                String.format("%-26s$ %.02f","Change",getChange());
     }
 }

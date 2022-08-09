@@ -9,9 +9,20 @@ public class CashRegister {
     /**reference to the catalog that this register will look into*/
     private ProductCatalog catalog_reference;
 
+    /**
+     * gets the current sale as a recite string formated for user
+     * eyes
+     * */
     public String getCurrentSaleDisplayString() {
         if (current_sale != null) {
             return current_sale.toString();
+        }
+        return "";
+    }
+
+    public String getTransactionString() {
+        if (current_sale != null) {
+            return current_sale.get_transaction_string();
         }
         return "";
     }
@@ -94,11 +105,20 @@ public class CashRegister {
                     quantity);
         }
     }
+
+    /**
+     * returns true if the current sale is complete
+     * */
     public boolean getCurrentSaleComplete() {
         if (current_sale == null)
             return false;
         return current_sale.isComplete;
     }
+
+
+    /**
+     * gets the change owed by the current sale
+     * */
     public double getCurrentSaleChange() {
         if (current_sale == null)
             return 0;
