@@ -133,6 +133,9 @@ public class ProductCatalog {
         get_specification_list().forEach(action);
     }
 
+    /**
+     * returns a copy of the current specification list
+     * */
     public ArrayList<ProductSpecification> getListCopy() {
         ArrayList<ProductSpecification> ret_val = new ArrayList<ProductSpecification>();
 
@@ -143,6 +146,9 @@ public class ProductCatalog {
         return ret_val;
     }
 
+    /**
+     * returns a list of item codes contained inside the catalog
+     * */
     public ArrayList<ProductSpecification.ItemCode> getItemCodeList() {
         ArrayList<ProductSpecification.ItemCode> ret_val = new ArrayList<>();
         productSpecification_list.forEach((i)->{
@@ -150,7 +156,15 @@ public class ProductCatalog {
         });
         return ret_val;
     }
+
+    /**
+     * the file that we read and write to
+     * */
     java.io.File dataFile;
+
+    /**
+     * create a new product catalog with the given file f
+     * */
     public ProductCatalog(File f) {
         dataFile = f;
         productSpecification_list = ProductSpecification.gen_item_linked_list(f);
@@ -196,7 +210,9 @@ public class ProductCatalog {
         //with any luck we should never get here
         return null;
     }
-
+    /**
+     * gets a specificaiton from the catalog given a string representing an item code
+     * */
     public ProductSpecification getSpecification(String s) {
         return getSpecification(new ProductSpecification.ItemCode(s));
     }

@@ -21,7 +21,7 @@ public class ProductSpecProtocal {
     public static enum COMMANDS {
         GET,
         UPDATE,
-        DELETE,
+        DELETE, //TODO: this is not currently in use
         NOOP, //indicates no operation, used as an error code
         SPEC_NOT_FOUND, //indicates that the given specification is not located
         GET_ALL_ITEM_CODES, //requests a list of all item codes stored in the database
@@ -50,6 +50,9 @@ public class ProductSpecProtocal {
         return tag_bytes(COMMANDS.ITEM_CODE, ic.encode());
     }
 
+    /**
+     * decodes an item code from the given network packet
+     * */
     public ProductSpecification.ItemCode get_item_code_from_item_code_packet(byte [] itemCodePacket) {
        return new ProductSpecification.ItemCode(slice_bytes(itemCodePacket,1));
     }
@@ -134,20 +137,7 @@ public class ProductSpecProtocal {
     public static byte [] gen_get_request(ProductSpecification.ItemCode ic) {
             return tag_bytes(COMMANDS.GET,ic.encode());
     }
-    public static int COMMAND_BYTE_SIZE;
 
-    /**
-     *
-     * */
-    public static byte [] readItemCode(InputStream is) {
-
-
-        byte[] ret_val = new byte[COMMAND_BYTE_SIZE];
-        for (int i = 0; i < ret_val.length;i++) {
-
-        }
-        return ret_val;
-    }
     /**
      * returns a product specification from a modification packet
      * */

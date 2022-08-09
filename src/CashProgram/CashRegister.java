@@ -20,6 +20,9 @@ public class CashRegister {
         return "";
     }
 
+    /**
+     * returns a reciept of the given transaction
+     * */
     public String getTransactionString() {
         if (current_sale != null) {
             return current_sale.get_transaction_string();
@@ -138,6 +141,10 @@ public class CashRegister {
         }
 
     }
+    /**
+     * ends the given sale using the command line to ensure that all
+     * sales items have been payed for
+     * */
     void endSaleVerbose() {
         System.out.println(current_sale);
         System.out.printf("%-26s$ %.02f\n","Change:",

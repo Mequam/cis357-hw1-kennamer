@@ -14,7 +14,17 @@ import java.util.ArrayList;
  * from over a network to a ProductSpec Server
  * */
 public class ProductCatalogClient extends ProductCatalog {
+
+    /**
+     *
+     * server socket representing the location of the item server
+     *
+     * */
     Socket server;
+
+    /**
+     * creates a new ProductCatalogClient from a given ip address string and port
+     * */
     public ProductCatalogClient(String ip,int port) {
         try {
             server = new Socket(ip, port);

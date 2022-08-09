@@ -143,6 +143,9 @@ public class Sale extends ItemCounterContainer {
         }
     }
 
+    /**
+     * gets this sale as a reciept containing user change and tendered amount
+     * */
     public String get_transaction_string() {
         return toString() +
                 "\n--------------------------------\n" +
